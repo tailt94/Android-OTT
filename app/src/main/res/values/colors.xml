@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#F5A623</color>
+    <color name="colorPrimaryDark">#cd8103</color>
+    <color name="colorAccent">#8B572A</color>
+
+    <color name="shadow_color">#25000000</color>
+    
+    <color name="login_header_color">#F5A623</color>
+    <color name="login_title_color">#FFFF8C</color>
+    <color name="login_button_color">#8B572A</color>
+    <color name="login_button_forgot_password_color">#5AB0D7</color>
+    <color name="login_button_text_color">#F5F5F6</color>
+</resources>

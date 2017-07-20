@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">OTT</string>
+    <string name="register_tittle">Register Account</string>
+    <string name="ok">OK</string>
+
+    <string name="login_header_title">Always Be Connected</string>
+    <string name="login_input_email">Email</string>
+    <string name="login_input_password">Password</string>
+    <string name="login_forgot_password">Forgot Password ?</string>
+    <string name="login_button_login">LOGIN</string>
+    <string name="login_button_register">REGISTER</string>
+
+    <string name="register_email">Email (*)</string>
+    <string name="register_input_email">Your Email</string>
+    <string name="register_password">Password (*)</string>
+    <string name="register_input_password">Password</string>
+    <string name="register_confirm_password">Confirm Password (*)</string>
+    <string name="register_input_confirm_password">Confirm Password</string>
+    <string name="register_first_name">First Name</string>
+    <string name="register_input_first_name">First name</string>
+    <string name="register_last_name">Last Name</string>
+    <string name="register_input_last_name">Last name</string>
+    <string name="register_sex">Sex</string>
+    <string name="register_male">Male</string>
+    <string name="register_female">Female</string>
+    <string name="register_other">Other</string>
+    <string name="register_birthday">Date Of Birth</string>
+    <string name="register_input_birthday">Your birthday</string>
+    <string name="register_country">Country</string>
+    <string name="register_input_country">Your country</string>
+    <string name="register_city">City</string>
+    <string name="register_input_city">Your City</string>
+</resources>
