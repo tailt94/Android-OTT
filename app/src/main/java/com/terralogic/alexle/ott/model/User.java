@@ -1,5 +1,12 @@
 package com.terralogic.alexle.ott.model;
 
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,12 +18,34 @@ public class User {
     private String token;
     private String email;
     private String password;
+    private String phoneNumber;
     private Name name;
-    private Sex sex;
+    private String sex;
     private String birthday;
     private String city;
     private String country;
-    private List<Device> devices;
+    private List<Device> devices = new ArrayList<>();
+
+    public User(JSONObject json) {
+        try {
+            tokenUser = json.getString("tokenuser");
+            sex = json.getString("sex");
+            phoneNumber = json.getString("phonenumber");
+            email = json.getString("email");
+            country = json.getString("country");
+            city = json.getString("city");
+            birthday = json.getString("birthday");
+            token = json.getString("token");
+            name = new Name(json.getJSONObject("name"));
+
+            JSONArray deviceArray = json.getJSONArray("devices");
+            for (int i = 0; i < deviceArray.length(); i++) {
+                devices.add(new Device(deviceArray.getJSONObject(i)));
+            }
+        } catch (JSONException e) {
+            Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
+        }
+    }
 
     public String getTokenUser() {
         return tokenUser;
@@ -58,11 +87,11 @@ public class User {
         this.name = name;
     }
 
-    public Sex getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Sex sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
@@ -96,5 +125,13 @@ public class User {
 
     public void setDevices(List<Device> devices) {
         this.devices = devices;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

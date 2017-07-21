@@ -54,6 +54,7 @@ public class HttpHandler {
             OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
             writer.write(data);
             writer.flush();
+
             int statusCode = conn.getResponseCode();
             switch (statusCode) {
                 case 200:
@@ -61,10 +62,10 @@ public class HttpHandler {
                     response = convertStreamToString(in);
                     break;
                 case 401:
-                    response = "Wrong password!";
+                    response = "Password is wrong, please try again";
                     break;
                 case 404:
-                    response = "Account doesn't exist!";
+                    response = "Account doesn't exist";
                     break;
                 default:
                     break;

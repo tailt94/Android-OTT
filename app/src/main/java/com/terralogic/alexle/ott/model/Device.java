@@ -1,5 +1,10 @@
 package com.terralogic.alexle.ott.model;
 
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by alex.le on 19-Jul-17.
  */
@@ -9,6 +14,17 @@ public class Device {
     private String tokenUser;
     private String port;
     private String chipID;
+
+    public Device(JSONObject json) {
+        try {
+            type = json.getString("type");
+            tokenUser = json.getString("tokenuser");
+            port = json.getString("port");
+            chipID = json.getString("chipID");
+        } catch (JSONException e) {
+            Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
+        }
+    }
 
     public String getType() {
         return type;

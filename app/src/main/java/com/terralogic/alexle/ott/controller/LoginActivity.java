@@ -21,7 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
+import com.terralogic.alexle.ott.model.User;
 import com.terralogic.alexle.ott.service.HttpHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
     private ViewGroup rootView;
@@ -33,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputPassword;
     private LinearLayout buttonLogin;
     private LinearLayout buttonRegister;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,7 +165,27 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Toast.makeText(LoginActivity.this, s, Toast.LENGTH_LONG).show();
+            if (loginSuccess(s)) {
+                try {
+                    JSONObject json = new JSONObject(s);
+                    user = new User(json.getJSONObject("data"));
+                } catch (JSONException ex) {
+                    Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
+                }
+            } else {
+                Toast.makeText(LoginActivity.this, s, Toast.LENGTH_LONG).show();
+            }
+        }
+
+        /**
+         * Check login state
+         */
+        private boolean loginSuccess(String message) {
+            if (message.equals("Password is wrong, please try again")
+                    || message.equals("Account doesn't exist")) {
+                return false;
+            }
+            return true;
         }
     }
 }
