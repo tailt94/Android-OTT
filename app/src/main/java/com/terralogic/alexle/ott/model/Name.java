@@ -14,12 +14,8 @@ public class Name {
     private String lastName;
 
     public Name(JSONObject json) {
-        try {
-            firstName = json.getString("firstname");
-            lastName = json.getString("lastname");
-        } catch (JSONException e) {
-            Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
-        }
+        firstName = json.optString("firstname");
+        lastName = json.optString("lastname");
     }
 
     public String getFirstName() {

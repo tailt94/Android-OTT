@@ -27,23 +27,19 @@ public class User {
     private List<Device> devices = new ArrayList<>();
 
     public User(JSONObject json) {
-        try {
-            tokenUser = json.getString("tokenuser");
-            sex = json.getString("sex");
-            phoneNumber = json.getString("phonenumber");
-            email = json.getString("email");
-            country = json.getString("country");
-            city = json.getString("city");
-            birthday = json.getString("birthday");
-            token = json.getString("token");
-            name = new Name(json.getJSONObject("name"));
+        tokenUser = json.optString("tokenuser");
+        sex = json.optString("sex");
+        phoneNumber = json.optString("phonenumber");
+        email = json.optString("email");
+        country = json.optString("country");
+        city = json.optString("city");
+        birthday = json.optString("birthday");
+        token = json.optString("token");
+        name = new Name(json.optJSONObject("name"));
 
-            JSONArray deviceArray = json.getJSONArray("devices");
-            for (int i = 0; i < deviceArray.length(); i++) {
-                devices.add(new Device(deviceArray.getJSONObject(i)));
-            }
-        } catch (JSONException e) {
-            Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
+        JSONArray deviceArray = json.optJSONArray("devices");
+        for (int i = 0; i < deviceArray.length(); i++) {
+            devices.add(new Device(deviceArray.optJSONObject(i)));
         }
     }
 

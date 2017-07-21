@@ -16,14 +16,10 @@ public class Device {
     private String chipID;
 
     public Device(JSONObject json) {
-        try {
-            type = json.getString("type");
-            tokenUser = json.getString("tokenuser");
-            port = json.getString("port");
-            chipID = json.getString("chipID");
-        } catch (JSONException e) {
-            Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
-        }
+        type = json.optString("type");
+        tokenUser = json.optString("tokenuser");
+        port = json.optString("port");
+        chipID = json.optString("chipID");
     }
 
     public String getType() {
