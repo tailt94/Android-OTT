@@ -38,8 +38,10 @@ public class User {
         name = new Name(json.optJSONObject("name"));
 
         JSONArray deviceArray = json.optJSONArray("devices");
-        for (int i = 0; i < deviceArray.length(); i++) {
-            devices.add(new Device(deviceArray.optJSONObject(i)));
+        if (deviceArray != null) {
+            for (int i = 0; i < deviceArray.length(); i++) {
+                devices.add(new Device(deviceArray.optJSONObject(i)));
+            }
         }
     }
 

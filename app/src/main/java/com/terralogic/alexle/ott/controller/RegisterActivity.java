@@ -2,42 +2,53 @@ package com.terralogic.alexle.ott.controller;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
+import com.terralogic.alexle.ott.model.User;
+import com.terralogic.alexle.ott.service.HttpHandler;
 
-import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.Map;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends PostActivity {
     private EditText inputEmail;
     private EditText inputPassword;
     private EditText inputConfirmPassword;
     private EditText inputFirstName;
     private EditText inputLastName;
+    private RadioGroup groupGender;
     private TextView birthday;
+    private EditText inputCity;
     private EditText inputCountry;
     private ViewGroup buttonRegister;
+    private boolean isBirthdaySet = false;
     private DatePickerDialog.OnDateSetListener myDateListener = new
             DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                    isBirthdaySet = true;
                     showDate(year, month + 1, day);
                 }
             };
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +66,43 @@ public class RegisterActivity extends AppCompatActivity {
         return null;
     }
 
+    @Override
+    protected void addPostParams() {
+        postParams.put("method", "register");
+        if (!TextUtils.isEmpty(inputEmail.getText())) {
+            postParams.put("email", inputEmail.getText().toString());
+        }
+        if (!TextUtils.isEmpty(inputPassword.getText())) {
+            postParams.put("password", inputPassword.getText().toString());
+        }
+        if (!TextUtils.isEmpty(inputFirstName.getText())) {
+            postParams.put("firstname", inputFirstName.getText().toString());
+        }
+        if (!TextUtils.isEmpty(inputLastName.getText())) {
+            postParams.put("lastname", inputLastName.getText().toString());
+        }
+        if (!TextUtils.isEmpty(inputCity.getText())) {
+            postParams.put("city", inputCity.getText().toString());
+        }
+        if (!TextUtils.isEmpty(inputCountry.getText())) {
+            postParams.put("country", inputCountry.getText().toString());
+        }
+        String selectedGender = ((RadioButton) findViewById(groupGender.getCheckedRadioButtonId())).getText().toString().toLowerCase();
+        postParams.put("sex", selectedGender);
+        if (isBirthdaySet) {
+            postParams.put("birthday", birthday.getText().toString());
+        }
+    }
+
     private void bindViews() {
         inputEmail = (EditText) findViewById(R.id.input_email);
         inputPassword = (EditText) findViewById(R.id.input_password);
         inputConfirmPassword = (EditText) findViewById(R.id.input_confirm_password);
         inputFirstName = (EditText) findViewById(R.id.input_first_name);
         inputLastName = (EditText) findViewById(R.id.input_last_name);
+        groupGender = (RadioGroup) findViewById(R.id.group_sex);
         birthday = (TextView) findViewById(R.id.input_birthday);
+        inputCity = (EditText) findViewById(R.id.input_city);
         inputCountry = (EditText) findViewById(R.id.input_country);
         buttonRegister = (ViewGroup) findViewById(R.id.btn_register);
     }
@@ -77,7 +118,8 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (isValidInfo()) {
-                    Toast.makeText(RegisterActivity.this, "VALID", Toast.LENGTH_LONG).show();
+                    addPostParams();
+                    new PostTask().execute(postParams);
                 } else {
                     Toast.makeText(RegisterActivity.this, "INVALID", Toast.LENGTH_LONG).show();
                 }

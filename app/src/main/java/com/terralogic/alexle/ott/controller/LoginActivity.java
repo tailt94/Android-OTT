@@ -27,7 +27,7 @@ import com.terralogic.alexle.ott.service.HttpHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends PostActivity{
     private ViewGroup rootView;
     private ViewGroup header;
     private TextView headerTitle;
@@ -38,8 +38,6 @@ public class LoginActivity extends AppCompatActivity {
     private LinearLayout buttonLogin;
     private LinearLayout buttonRegister;
 
-    private User user;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +45,17 @@ public class LoginActivity extends AppCompatActivity {
         bindViews();
         setupListeners();
         setupLayoutTransition();
+    }
+
+    @Override
+    protected void addPostParams() {
+        postParams.put("method", "login");
+        if (!TextUtils.isEmpty(inputEmail.getText())) {
+            postParams.put("email", inputEmail.getText().toString());
+        }
+        if (!TextUtils.isEmpty(inputPassword.getText())) {
+            postParams.put("password", inputPassword.getText().toString());
+        }
     }
 
     private void bindViews() {
@@ -65,9 +74,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (isValidInfo()) {
-                    String email = inputEmail.getText().toString();
-                    String password = inputPassword.getText().toString();
-                    new LoginTask().execute(email, password);
+                    addPostParams();
+                    new PostTask().execute(postParams);
                 } else {
                     Toast.makeText(LoginActivity.this, "Invalid info", Toast.LENGTH_SHORT).show();
                 }
@@ -150,42 +158,5 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isRequiredFieldFilled() {
         return (!TextUtils.isEmpty(inputEmail.getText()) && !TextUtils.isEmpty(inputPassword.getText()));
-    }
-
-    private class LoginTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            HttpHandler httpHandler = new HttpHandler("http://10.20.19.73/user");
-            httpHandler.addParam("email", strings[0]);
-            httpHandler.addParam("password", strings[1]);
-            httpHandler.addParam("method", "login");
-            return httpHandler.makeServiceCall();
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if (loginSuccess(s)) {
-                try {
-                    JSONObject json = new JSONObject(s);
-                    user = new User(json.getJSONObject("data"));
-                } catch (JSONException ex) {
-                    Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
-                }
-            } else {
-                Toast.makeText(LoginActivity.this, s, Toast.LENGTH_LONG).show();
-            }
-        }
-
-        /**
-         * Check login state
-         */
-        private boolean loginSuccess(String message) {
-            if (message.equals("Password is wrong, please try again")
-                    || message.equals("Account doesn't exist")) {
-                return false;
-            }
-            return true;
-        }
     }
 }

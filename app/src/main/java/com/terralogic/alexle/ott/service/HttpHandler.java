@@ -67,6 +67,9 @@ public class HttpHandler {
                 case 404:
                     response = "Account doesn't exist";
                     break;
+                case 409:
+                    response = "Account already exist !!!";
+                    break;
                 default:
                     break;
             }
