@@ -2,11 +2,8 @@ package com.terralogic.alexle.ott.controller;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
-import com.terralogic.alexle.ott.model.User;
-import com.terralogic.alexle.ott.service.HttpHandler;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class RegisterActivity extends PostActivity {
     private EditText inputEmail;
@@ -47,8 +36,6 @@ public class RegisterActivity extends PostActivity {
                     showDate(year, month + 1, day);
                 }
             };
-
-    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +106,7 @@ public class RegisterActivity extends PostActivity {
             public void onClick(View view) {
                 if (isValidInfo()) {
                     addPostParams();
-                    new PostTask().execute(postParams);
+                    new PostRequestTask().execute(postParams);
                 } else {
                     Toast.makeText(RegisterActivity.this, "INVALID", Toast.LENGTH_LONG).show();
                 }

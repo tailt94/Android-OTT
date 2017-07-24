@@ -35,6 +35,7 @@ public class User {
         city = json.optString("city");
         birthday = json.optString("birthday");
         token = json.optString("token");
+        password = json.optString("password");
         name = new Name(json.optJSONObject("name"));
 
         JSONArray deviceArray = json.optJSONArray("devices");

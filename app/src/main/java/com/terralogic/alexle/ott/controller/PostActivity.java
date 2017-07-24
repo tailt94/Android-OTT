@@ -18,6 +18,7 @@ import java.util.Map;
 public abstract class PostActivity extends AppCompatActivity {
     protected HashMap<String, String> postParams = new HashMap<>();
     protected User user;
+    protected String requestUrl = "http://10.20.19.73/user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +27,10 @@ public abstract class PostActivity extends AppCompatActivity {
 
     protected abstract void addPostParams();
 
-    protected class PostTask extends AsyncTask<HashMap<String, String>, Void, String> {
+    protected class PostRequestTask extends AsyncTask<HashMap<String, String>, Void, String> {
         @Override
         protected String doInBackground(HashMap<String, String>... paramsMap) {
-            HttpHandler httpHandler = new HttpHandler("http://10.20.19.73/user");
+            HttpHandler httpHandler = new HttpHandler(requestUrl);
             for (Map.Entry<String, String> entry : paramsMap[0].entrySet()) {
                 httpHandler.addParam(entry.getKey(), entry.getValue());
             }
