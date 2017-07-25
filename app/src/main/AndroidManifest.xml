@@ -28,6 +28,7 @@
             android:name=".controller.RegisterActivity"
             android:label="@string/register_tittle"
             android:theme="@style/AppThemeWithActionBar" />
+        <activity android:name=".controller.HomeActivity" />
     </application>
 
 </manifest>

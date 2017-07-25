@@ -4,6 +4,7 @@ import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.app.Service;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
+import com.terralogic.alexle.ott.model.DatabaseHandler;
+import com.terralogic.alexle.ott.model.User;
 
 public class LoginActivity extends PostActivity{
     private ViewGroup rootView;
@@ -62,17 +65,7 @@ public class LoginActivity extends PostActivity{
     }
 
     private void setupListeners() {
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isValidInfo()) {
-                    addPostParams();
-                    new PostRequestTask().execute(postParams);
-                } else {
-                    Toast.makeText(LoginActivity.this, "Invalid info", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        buttonLogin.setOnClickListener(new ButtonLoginListener());
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,7 +141,23 @@ public class LoginActivity extends PostActivity{
         return Patterns.EMAIL_ADDRESS.matcher(inputEmail.getText()).matches();
     }
 
+    /**
+     * Check if the Email and Password field is filled
+     */
     private boolean isRequiredFieldFilled() {
         return (!TextUtils.isEmpty(inputEmail.getText()) && !TextUtils.isEmpty(inputPassword.getText()));
+    }
+
+    private class ButtonLoginListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            if (isValidInfo()) {
+                addPostParams();
+                PostRequestTask loginTask = new PostRequestTask();
+                loginTask.execute(postParams);
+            } else {
+                Toast.makeText(LoginActivity.this, "Invalid info", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

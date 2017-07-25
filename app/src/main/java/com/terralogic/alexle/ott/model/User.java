@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * Created by alex.le on 18-Jul-17.
  */
 
-public class User {
+public class User implements Serializable {
     private String tokenUser;
     private String token;
     private String email;
@@ -25,6 +26,10 @@ public class User {
     private String city;
     private String country;
     private List<Device> devices = new ArrayList<>();
+
+    public User() {
+
+    }
 
     public User(JSONObject json) {
         tokenUser = json.optString("tokenuser");

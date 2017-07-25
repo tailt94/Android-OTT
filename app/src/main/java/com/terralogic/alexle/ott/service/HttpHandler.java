@@ -37,6 +37,10 @@ public class HttpHandler {
         params.put(key, value);
     }
 
+    /**
+     * Send request to the server
+     * @return Response body
+     */
     public String makeServiceCall(){
         String response = null;
         HttpURLConnection conn = null;
@@ -83,6 +87,9 @@ public class HttpHandler {
         return response;
     }
 
+    /**
+     * Convert params HashMap to data string which is used for sending request
+     */
     private String getDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
         boolean isFirst = true;
@@ -99,6 +106,9 @@ public class HttpHandler {
         return result.toString();
     }
 
+    /**
+     * Read data from input stream
+     */
     private String convertStreamToString(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();

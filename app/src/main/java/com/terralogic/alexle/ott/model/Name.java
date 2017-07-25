@@ -5,11 +5,13 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by alex.le on 19-Jul-17.
  */
 
-public class Name {
+public class Name implements Serializable {
     private String firstName;
     private String lastName;
 

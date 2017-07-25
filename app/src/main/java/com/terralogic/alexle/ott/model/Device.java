@@ -5,15 +5,21 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by alex.le on 19-Jul-17.
  */
 
-public class Device {
+public class Device implements Serializable {
     private String type;
     private String tokenUser;
     private String port;
     private String chipID;
+
+    public Device() {
+
+    }
 
     public Device(JSONObject json) {
         type = json.optString("type");
