@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="register_vertical_dimen">10dp</dimen>
+    <dimen name="home_vertical_dimen">10dp</dimen>
 </resources>

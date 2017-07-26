@@ -21,10 +21,14 @@ public class HomeActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        user = (User) getIntent().getSerializableExtra(SplashActivity.EXTRA_USER);
+
         bindViews();
         setupActionBar();
         setupViewPager(viewPager);
@@ -47,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new DialFragment(), "DIAL");
         adapter.addFragment(new CallLogsFragment(), "CALLLOGS");
-        adapter.addFragment(new SettingsFragment(), "SETTINGS");
+        adapter.addFragment(SettingsFragment.newInstance(user), "SETTINGS");
         viewPager.setAdapter(adapter);
     }
 
@@ -78,27 +82,4 @@ public class HomeActivity extends AppCompatActivity {
             return fragmentTitleList.get(position);
         }
     }
-
-    /*private void showUserInfo() {
-        User user = (User) getIntent().getSerializableExtra(SplashActivity.EXTRA_USER);
-        String info = "Token user: " + user.getTokenUser() + "\n"
-                + "Token: " + user.getToken() + "\n"
-                + "Email: " + user.getEmail() + "\n"
-                + "Password: " + user.getPassword() + "\n"
-                + "Phone: " + user.getPhoneNumber() + "\n"
-                + "First name: " + user.getName().getFirstName() + "\n"
-                + "Last name: " + user.getName().getLastName() + "\n"
-                + "Sex: " + user.getSex() + "\n"
-                + "Birthday: " + user.getBirthday() + "\n"
-                + "City: " + user.getCity()  + "\n"
-                + "Country: " + user.getCountry() + "\n"
-                + "Devices: " + "\n";
-        for (Device device : user.getDevices()) {
-            info += device.getTokenUser() + "\n"
-                    + device.getType() + "\n"
-                    + device.getPort() + "\n"
-                    + device.getChipID() + "\n\n";
-        }
-        textContent.setText(info);
-    }*/
 }

@@ -20,11 +20,22 @@
         <item name="tabIndicatorColor">@color/home_tab_hightlight</item>
     </style>
 
-    <style name="login_screen_button">
+    <style name="LoginScreenButtonStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/rounded_corner</item>
     </style>
 
+    <style name="HomeTitleStyle">
+        <item name="android:textColor">@color/home_title_color</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="HomeTextStyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginTop">@dimen/home_vertical_dimen</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

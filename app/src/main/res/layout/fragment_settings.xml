@@ -1,13 +1,87 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.terralogic.alexle.ott.controller.SettingsFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+        <TextView
+            android:id="@+id/vnc_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/home_vnc_account"
+            style="@style/HomeTitleStyle"/>
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vnc_account"
+            android:layout_alignStart="@+id/vnc_account"
+            android:text="@string/home_username"
+            style="@style/HomeTextStyle"/>
+        <TextView
+            android:id="@+id/text_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/username"
+            android:layout_alignParentEnd="true"
+            style="@style/HomeTextStyle"/>
+        <TextView
+            android:id="@+id/full_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/username"
+            android:layout_alignStart="@+id/vnc_account"
+            android:text="@string/home_full_name"
+            style="@style/HomeTextStyle"/>
+        <TextView
+            android:id="@+id/text_full_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/full_name"
+            android:layout_alignParentEnd="true"
+            style="@style/HomeTextStyle"/>
+        <TextView
+            android:id="@+id/gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/full_name"
+            android:layout_alignStart="@+id/vnc_account"
+            android:text="@string/home_gender"
+            style="@style/HomeTextStyle"/>
+        <TextView
+            android:id="@+id/text_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/gender"
+            android:layout_alignParentEnd="true"
+            style="@style/HomeTextStyle"/>
+        <TextView
+            android:id="@+id/birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gender"
+            android:layout_alignStart="@+id/vnc_account"
+            android:text="@string/home_birthday"
+            style="@style/HomeTextStyle"/>
+        <TextView
+            android:id="@+id/text_birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/birthday"
+            android:layout_alignParentEnd="true"
+            style="@style/HomeTextStyle"/>
+        <TextView
+            android:id="@+id/change_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/birthday"
+            android:layout_alignStart="@+id/vnc_account"
+            android:text="@string/home_change_password"
+            style="@style/HomeTextStyle"/>
+    </RelativeLayout>
+</ScrollView>
