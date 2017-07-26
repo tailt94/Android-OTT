@@ -78,7 +78,6 @@ public abstract class PostActivity extends AppCompatActivity {
         protected User doInBackground(User... users) {
             DatabaseHandler db = DatabaseHandler.getInstance(PostActivity.this);
             db.addUser(users[0]);
-            db.close();
             return users[0];
         }
 

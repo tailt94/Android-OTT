@@ -33,7 +33,6 @@ public class SplashActivity extends AppCompatActivity {
             }
             DatabaseHandler db = DatabaseHandler.getInstance(SplashActivity.this);
             User user = db.getUser();
-            db.close();
             return user;
         }
 

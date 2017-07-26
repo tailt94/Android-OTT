@@ -218,11 +218,4 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         return db.insert(DEVICE_TABLE, null, values);
     }
-
-    public void close() {
-        SQLiteDatabase db = getReadableDatabase();
-        if (db != null && db.isOpen()) {
-            db.close();
-        }
-    }
 }

@@ -4,7 +4,6 @@ import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.app.Service;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -19,10 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
-import com.terralogic.alexle.ott.model.DatabaseHandler;
-import com.terralogic.alexle.ott.model.User;
+import com.terralogic.alexle.ott.util.SoftKeyboard;
 
-public class LoginActivity extends PostActivity{
+public class LoginActivity extends PostActivity {
     private ViewGroup rootView;
     private ViewGroup header;
     private TextView headerTitle;

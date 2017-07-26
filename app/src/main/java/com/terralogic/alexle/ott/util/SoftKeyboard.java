@@ -1,4 +1,4 @@
-package com.terralogic.alexle.ott.controller;
+package com.terralogic.alexle.ott.util;
 
 /**
  * Created by alex.le on 14-Jul-17.
