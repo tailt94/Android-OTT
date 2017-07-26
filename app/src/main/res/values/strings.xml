@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">OTT</string>
     <string name="register_tittle">Register Account</string>
+    <string name="home_title">VNC OTT</string>
     <string name="ok">OK</string>
 
     <string name="login_header_title">Always Be Connected</string>

@@ -129,7 +129,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             user.setBirthday(cursor.getString(cursor.getColumnIndex(USER_COLUMN_BIRTHDAY)));
             user.setCity(cursor.getString(cursor.getColumnIndex(USER_COLUMN_CITY)));
             user.setCountry(cursor.getString(cursor.getColumnIndex(USER_COLUMN_COUNTRY)));
-            user.setDevices(getListDevice());
+            user.setDevices(getListDevice(cursor.getString(cursor.getColumnIndex(USER_COLUMN_TOKEN_USER))));
 
             cursor.close();
         }
@@ -144,8 +144,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = getReadableDatabase();
         String selectQuery = "SELECT * FROM " + USER_TABLE
-                + "WHERE " + USER_COLUMN_EMAIL + " = " + email;
-        Cursor cursor = db.rawQuery(selectQuery, null);
+                + "WHERE " + USER_COLUMN_EMAIL + " = ?";
+        String[] selectionArgs = {email};
+        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
         if (cursor.moveToFirst()) {
             user = new User();
             user.setTokenUser(cursor.getString(cursor.getColumnIndex(USER_COLUMN_TOKEN_USER)));
@@ -159,38 +160,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             user.setBirthday(cursor.getString(cursor.getColumnIndex(USER_COLUMN_BIRTHDAY)));
             user.setCity(cursor.getString(cursor.getColumnIndex(USER_COLUMN_CITY)));
             user.setCountry(cursor.getString(cursor.getColumnIndex(USER_COLUMN_COUNTRY)));
-            user.setDevices(getListDevice());
+            user.setDevices(getListDevice(cursor.getString(cursor.getColumnIndex(USER_COLUMN_TOKEN_USER))));
 
             cursor.close();
         }
         return user;
     }
 
-    public Device getDevice(String tokenUser) {
-        Device device = null;
-
-        SQLiteDatabase db = getReadableDatabase();
-        String selectQuery = "SELECT * FROM " + DEVICE_TABLE
-                + "WHERE " + DEVICE_COLUMN_TOKEN_USER + " = " + tokenUser;
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()) {
-            device = new Device();
-            device.setTokenUser(cursor.getString(cursor.getColumnIndex(DEVICE_COLUMN_TOKEN_USER)));
-            device.setType(cursor.getString(cursor.getColumnIndex(DEVICE_COLUMN_TYPE)));
-            device.setPort(cursor.getString(cursor.getColumnIndex(DEVICE_COLUMN_PORT)));
-            device.setChipID(cursor.getString(cursor.getColumnIndex(DEVICE_COLUMN_CHIP_ID)));
-            cursor.close();
-        }
-
-        return device;
-    }
-
-    public List<Device> getListDevice() {
+    public List<Device> getListDevice(String tokenUser) {
         List<Device> devices = new ArrayList<>();
 
         SQLiteDatabase db = getReadableDatabase();
-        String selectQuery = "SELECT * FROM " + DEVICE_TABLE;
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        String selectQuery = "SELECT * FROM " + DEVICE_TABLE
+                + " WHERE " + DEVICE_COLUMN_TOKEN_USER + " = ?" ;
+        String[] selectionArgs = {tokenUser};
+        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
         if (cursor.moveToFirst()) {
             do {
                 Device device = new Device();
