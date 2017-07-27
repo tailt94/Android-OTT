@@ -93,7 +93,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void showEditAccountDialog() {
-        EditAccountDialogFragment dialog = new EditAccountDialogFragment();
+        EditAccountDialogFragment dialog = EditAccountDialogFragment.newInstance(user);
         dialog.show(getFragmentManager(), "EditAccountDialogFragment");
     }
 
