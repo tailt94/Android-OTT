@@ -83,5 +83,13 @@
             android:layout_alignStart="@+id/vnc_account"
             android:text="@string/home_change_password"
             style="@style/HomeTextStyle"/>
+        <ImageView
+            android:id="@+id/btn_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_birthday"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/btn_edit_bg"/>
     </RelativeLayout>
 </ScrollView>

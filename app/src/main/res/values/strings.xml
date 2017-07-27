@@ -44,4 +44,18 @@
     <string name="home_sip_password">Sip Password</string>
     <string name="home_sip_domain">Sip Domain</string>
     <string name="home_sip_status">Sip Status</string>
+
+    <string name="edit_dialog_title">Edit VNC Account</string>
+    <string name="edit_dialog_first_name">First Name</string>
+    <string name="edit_dialog_last_name">Last Name</string>
+    <string name="edit_dialog_sex">Sex</string>
+    <string name="edit_dialog_male">Male</string>
+    <string name="edit_dialog_female">Female</string>
+    <string name="edit_dialog_other">Other</string>
+    <string name="edit_dialog_birthday">Date Of Birth</string>
+    <string name="edit_dialog_input_birthday">Your birthday</string>
+    <string name="edit_dialog_country">Country</string>
+    <string name="edit_dialog_city">City</string>
+    <string name="edit_dialog_update">Update</string>
+    <string name="edit_dialog_cancel">Cancel</string>
 </resources>
