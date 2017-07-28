@@ -31,6 +31,8 @@ public abstract class PostActivity extends AppCompatActivity {
      * Add params to HashMap for Post request
      */
     protected abstract void addPostParams();
+    protected abstract void onPostDone();
+    protected abstract void onPostFailed();
 
     protected class PostRequestTask extends AsyncTask<HashMap<String, String>, Void, String> {
         @Override
@@ -48,12 +50,12 @@ public abstract class PostActivity extends AppCompatActivity {
                 try {
                     JSONObject json = new JSONObject(s);
                     user = new User(json.optJSONObject("data"));
-                    new SaveUserTask().execute(user);
+                    onPostDone();
                 } catch (JSONException ex) {
                     Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
                 }
             } else {
-                Toast.makeText(PostActivity.this, "Fail", Toast.LENGTH_SHORT).show();
+                onPostFailed();
             }
         }
 

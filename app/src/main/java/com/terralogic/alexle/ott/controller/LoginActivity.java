@@ -51,6 +51,16 @@ public class LoginActivity extends PostActivity {
         }
     }
 
+    @Override
+    protected void onPostDone() {
+        new SaveUserTask().execute(user);
+    }
+
+    @Override
+    protected void onPostFailed() {
+        Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
+    }
+
     private void bindViews() {
         inputEmail = (EditText) findViewById(R.id.input_email);
         inputPassword = (EditText) findViewById(R.id.input_password);
@@ -63,7 +73,18 @@ public class LoginActivity extends PostActivity {
     }
 
     private void setupListeners() {
-        buttonLogin.setOnClickListener(new ButtonLoginListener());
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isValidInfo()) {
+                    addPostParams();
+                    PostRequestTask loginTask = new PostRequestTask();
+                    loginTask.execute(postParams);
+                } else {
+                    Toast.makeText(LoginActivity.this, "Invalid info", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,18 +165,5 @@ public class LoginActivity extends PostActivity {
      */
     private boolean isRequiredFieldFilled() {
         return (!TextUtils.isEmpty(inputEmail.getText()) && !TextUtils.isEmpty(inputPassword.getText()));
-    }
-
-    private class ButtonLoginListener implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            if (isValidInfo()) {
-                addPostParams();
-                PostRequestTask loginTask = new PostRequestTask();
-                loginTask.execute(postParams);
-            } else {
-                Toast.makeText(LoginActivity.this, "Invalid info", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 }

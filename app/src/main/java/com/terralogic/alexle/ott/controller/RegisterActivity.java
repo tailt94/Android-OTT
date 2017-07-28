@@ -2,6 +2,7 @@ package com.terralogic.alexle.ott.controller;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -70,6 +71,17 @@ public class RegisterActivity extends PostActivity implements DatePickerFragment
         if (isBirthdaySet) {
             postParams.put("birthday", birthday.getText().toString());
         }
+    }
+
+    @Override
+    protected void onPostDone() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onPostFailed() {
+        Toast.makeText(this, "Register failed", Toast.LENGTH_SHORT).show();
     }
 
     private void bindViews() {
