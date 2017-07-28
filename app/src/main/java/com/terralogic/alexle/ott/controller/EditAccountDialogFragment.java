@@ -9,8 +9,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +31,7 @@ import java.util.Calendar;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditAccountDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class EditAccountDialogFragment extends DialogFragment implements DatePickerFragment.OnDateChangeListener{
     private static final String ARG_USER = "user";
 
     private EditText inputFirstName;
@@ -77,8 +79,8 @@ public class EditAccountDialogFragment extends DialogFragment implements DatePic
     }
 
     @Override
-    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        inputBirthday.setText(new StringBuilder().append(month).append("/")
+    public void onDateChange(int year, int month, int day) {
+        inputBirthday.setText(new StringBuilder().append(month + 1).append("/")
                 .append(day).append("/").append(year));
     }
 
@@ -156,23 +158,8 @@ public class EditAccountDialogFragment extends DialogFragment implements DatePic
 
     private void showDatePicker() {
         DatePickerFragment datePicker = new DatePickerFragment();
+        datePicker.setDateChangeListener(this);
         datePicker.show(getFragmentManager(), "DatePickerFragment");
-    }
-
-    public static class DatePickerFragment extends DialogFragment {
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar calendar = Calendar.getInstance();
-
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            //TODO Why parent = null?
-            Fragment parent = getParentFragment();
-            return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener) getParentFragment(),
-                    year, month, day);
-        }
     }
 
     public interface EditDialogListener {

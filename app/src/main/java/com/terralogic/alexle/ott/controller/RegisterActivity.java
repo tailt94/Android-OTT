@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
 
-public class RegisterActivity extends PostActivity {
+public class RegisterActivity extends PostActivity implements DatePickerFragment.OnDateChangeListener {
     private EditText inputEmail;
     private EditText inputPassword;
     private EditText inputConfirmPassword;
@@ -28,14 +28,6 @@ public class RegisterActivity extends PostActivity {
     private EditText inputCountry;
     private ViewGroup buttonRegister;
     private boolean isBirthdaySet = false;
-    private DatePickerDialog.OnDateSetListener myDateListener = new
-            DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    isBirthdaySet = true;
-                    showDate(year, month + 1, day);
-                }
-            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +38,10 @@ public class RegisterActivity extends PostActivity {
     }
 
     @Override
-    protected Dialog onCreateDialog(int id) {
-        if (id == 999) {
-            return new DatePickerDialog(this, myDateListener, 1994, 6, 20);
-        }
-        return null;
+    public void onDateChange(int year, int month, int day) {
+        isBirthdaySet = true;
+        birthday.setText(new StringBuilder().append(month + 1).append("/")
+                .append(day).append("/").append(year));
     }
 
     @Override
@@ -98,7 +89,9 @@ public class RegisterActivity extends PostActivity {
         birthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDatePicker();
+                DatePickerFragment datePicker = new DatePickerFragment();
+                datePicker.setDateChangeListener(RegisterActivity.this);
+                datePicker.show(getSupportFragmentManager(), "DatePickerFragment");
             }
         });
         buttonRegister.setOnClickListener(new View.OnClickListener() {
@@ -112,18 +105,6 @@ public class RegisterActivity extends PostActivity {
                 }
             }
         });
-    }
-
-    private void showDatePicker() {
-        showDialog(999);
-    }
-
-    /**
-     * Display selected birthday
-     */
-    private void showDate(int year, int month, int day) {
-        birthday.setText(new StringBuilder().append(month).append("/")
-                .append(day).append("/").append(year));
     }
 
     /**
