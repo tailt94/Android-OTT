@@ -59,24 +59,14 @@ public class HttpHandler {
             writer.write(data);
             writer.flush();
 
+            InputStream in = null;
             int statusCode = conn.getResponseCode();
-            switch (statusCode) {
-                case 200:
-                    InputStream in = new BufferedInputStream(conn.getInputStream());
-                    response = convertStreamToString(in);
-                    break;
-                case 401:
-                    response = "Password is wrong, please try again";
-                    break;
-                case 404:
-                    response = "Account doesn't exist";
-                    break;
-                case 409:
-                    response = "Account already exist !!!";
-                    break;
-                default:
-                    break;
+            if (statusCode >= 400) {
+                in = new BufferedInputStream(conn.getErrorStream());
+            } else {
+                in = new BufferedInputStream(conn.getInputStream());
             }
+            response = convertStreamToString(in);
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

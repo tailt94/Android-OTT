@@ -53,21 +53,28 @@ public abstract class PostActivity extends AppCompatActivity {
                     Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
                 }
             } else {
-                Toast.makeText(PostActivity.this, s, Toast.LENGTH_SHORT).show();
+                Toast.makeText(PostActivity.this, "Fail", Toast.LENGTH_SHORT).show();
             }
         }
 
         /**
          * Check task state
          */
-        private boolean taskSuccess(String message) {
-            if (message == null) {
+        private boolean taskSuccess(String response) {
+            if (response == null) {
                 return false;
             }
-            if (message.equals("Password is wrong, please try again")
-                    || message.equals("Account doesn't exist")
-                    || message.equals("Account already exist !!!")) {
-                return false;
+            try {
+                JSONObject json = new JSONObject(response);
+                String message = json.optString("message");
+                if (message.equals("Password is wrong, please try again")
+                        || message.equals("Account doesn't exist")
+                        || message.equals("Account already exist !!!")
+                        || message.equals("Unauthorized")) {
+                    return false;
+                }
+            } catch (JSONException ex) {
+                Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
             }
             return true;
         }
