@@ -1,23 +1,15 @@
 package com.terralogic.alexle.ott.controller;
 
-
-import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -26,11 +18,6 @@ import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.model.Name;
 import com.terralogic.alexle.ott.model.User;
 
-import java.util.Calendar;
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class EditAccountDialogFragment extends DialogFragment implements DatePickerFragment.OnDateChangeListener{
     private static final String ARG_USER = "user";
 

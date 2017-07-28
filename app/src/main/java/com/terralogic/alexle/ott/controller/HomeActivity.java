@@ -8,10 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import com.terralogic.alexle.ott.R;
-import com.terralogic.alexle.ott.model.Device;
 import com.terralogic.alexle.ott.model.User;
 
 import java.util.ArrayList;
