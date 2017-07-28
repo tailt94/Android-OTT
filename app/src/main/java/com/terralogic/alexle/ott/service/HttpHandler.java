@@ -1,5 +1,7 @@
 package com.terralogic.alexle.ott.service;
 
+import android.os.Build;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import java.util.Map;
 public class HttpHandler {
     private String reqUrl;
     private HashMap<String, String> params = new HashMap<>();
+    private HashMap<String, String> headers = new HashMap<>();
 
     public HttpHandler(String url) {
         reqUrl = url;
@@ -37,6 +40,10 @@ public class HttpHandler {
         params.put(key, value);
     }
 
+    public void addHeader(String key, String value) {
+        headers.put(key, value);
+    }
+
     /**
      * Send request to the server
      * @return Response body
@@ -50,7 +57,9 @@ public class HttpHandler {
             conn.setDoOutput(true);
             conn.setDoInput(true);
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                conn.setRequestProperty(entry.getKey(), entry.getValue());
+            }
 
             //Send request
             String data = getDataString(params);

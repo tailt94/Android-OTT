@@ -44,6 +44,7 @@
     <string name="home_sip_password">Sip Password</string>
     <string name="home_sip_domain">Sip Domain</string>
     <string name="home_sip_status">Sip Status</string>
+    <string name="home_logout">Log out</string>
 
     <string name="edit_dialog_title">Edit VNC Account</string>
     <string name="edit_dialog_first_name">First Name</string>

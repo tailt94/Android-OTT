@@ -38,6 +38,7 @@ public abstract class PostActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(HashMap<String, String>... paramsMap) {
             HttpHandler httpHandler = new HttpHandler(requestUrl);
+            httpHandler.addHeader("Content-Type", "application/x-www-form-urlencoded");
             for (Map.Entry<String, String> entry : paramsMap[0].entrySet()) {
                 httpHandler.addParam(entry.getKey(), entry.getValue());
             }

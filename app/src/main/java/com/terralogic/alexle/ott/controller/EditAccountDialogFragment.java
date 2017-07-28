@@ -121,12 +121,14 @@ public class EditAccountDialogFragment extends DialogFragment implements DatePic
             public void onClick(View view) {
                 updateUser();
                 dismiss();
+                mListener.onDialogUpdate(user);
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
+                mListener.onDialogCancel();
             }
         });
         inputBirthday.setOnClickListener(new View.OnClickListener() {
@@ -162,8 +164,17 @@ public class EditAccountDialogFragment extends DialogFragment implements DatePic
         datePicker.show(getFragmentManager(), "DatePickerFragment");
     }
 
-    public interface EditDialogListener {
-        void onDialogUpdateClick();
-        void onDialogCancelClick();
+    public void setEditDialogListener(Fragment parentFragment) {
+        try {
+            mListener = (EditDialogListener) parentFragment;
+        } catch (ClassCastException ex) {
+            throw new ClassCastException(parentFragment.toString()
+                    + " must implement EditDialogListener");
+        }
+    }
+
+    interface EditDialogListener {
+        void onDialogUpdate(User user);
+        void onDialogCancel();
     }
 }

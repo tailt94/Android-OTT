@@ -16,7 +16,7 @@ import java.util.List;
 public class DatabaseHandler extends SQLiteOpenHelper {
     private static DatabaseHandler instance;
 
-    private static final String DATABASE_NAME = "VNC.db";
+    public static final String DATABASE_NAME = "VNC.db";
     private static final int DATABASE_VERSION = 1;
 
     private static final String USER_TABLE = "user";
@@ -134,6 +134,38 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cursor.close();
         }
         return user;
+    }
+
+    public void deleteUser(User user) {
+        SQLiteDatabase db = getWritableDatabase();
+        String whereClause = USER_COLUMN_TOKEN_USER + " = ?";
+        String[] args = {user.getTokenUser()};
+        db.delete(USER_TABLE, whereClause, args);
+    }
+
+    public int updateUser(User user) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(USER_COLUMN_TOKEN_USER, user.getTokenUser());
+        values.put(USER_COLUMN_TOKEN, user.getToken());
+        values.put(USER_COLUMN_EMAIL, user.getEmail());
+        values.put(USER_COLUMN_PASSWORD, user.getPassword());
+        values.put(USER_COLUMN_PHONE, user.getPhoneNumber());
+        values.put(USER_COLUMN_FIRST_NAME, user.getName().getFirstName());
+        values.put(USER_COLUMN_LAST_NAME, user.getName().getLastName());
+        values.put(USER_COLUMN_SEX, user.getSex());
+        values.put(USER_COLUMN_BIRTHDAY, user.getBirthday());
+        values.put(USER_COLUMN_CITY, user.getCity());
+        values.put(USER_COLUMN_COUNTRY, user.getCountry());
+        if (user.getDevices().size() != 0) {
+            for (Device device : user.getDevices()) {
+                addDevice(device);
+            }
+        }
+
+        String whereClause = USER_COLUMN_TOKEN_USER + " = ?";
+        String[] args = {user.getTokenUser()};
+        return db.update(USER_TABLE, values, whereClause, args);
     }
 
     /**

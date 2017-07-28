@@ -15,6 +15,14 @@
             android:layout_alignParentStart="true"
             android:text="@string/home_vnc_account"
             style="@style/HomeTitleStyle"/>
+        <ImageView
+            android:id="@+id/btn_edit_account"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/vnc_account"
+            android:layout_alignParentEnd="true"
+            android:adjustViewBounds="true"
+            android:src="@drawable/btn_edit_bg"/>
         <TextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
@@ -84,12 +92,27 @@
             android:text="@string/home_change_password"
             style="@style/HomeTextStyle"/>
         <ImageView
-            android:id="@+id/btn_edit"
+            android:id="@+id/btn_change_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_birthday"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="5dp"
-            android:src="@drawable/btn_edit_bg"/>
+            android:src="@drawable/btn_change_password_bg"/>
+        <LinearLayout
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/change_password"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/rounded_corner"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_logout"
+                android:textColor="@color/login_button_text_color"
+                android:textSize="15sp"/>
+        </LinearLayout>
     </RelativeLayout>
 </ScrollView>
