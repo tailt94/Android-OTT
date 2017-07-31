@@ -17,7 +17,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         //TEST
-        //deleteDatabase(DatabaseHandler.DATABASE_NAME);
+        deleteDatabase(DatabaseHandler.DATABASE_NAME);
         new LoadUserTask().execute();
     }
 

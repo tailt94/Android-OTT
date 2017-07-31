@@ -86,16 +86,15 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     @Override
     public void onDialogUpdate(User user) {
         clearPostParams();
-        addPostParams();
+        addEditAccountParams();
         new PostNewUserInfoTask().execute(user);
     }
 
     @Override
-    public void onPasswordChange(Bundle passwords) {
-        String oldPass = passwords.getString(ChangePasswordDialogFragment.BUNDLE_OLD_PASSWORD);
-        String newPass = passwords.getString(ChangePasswordDialogFragment.BUNDLE_NEW_PASSWORD);
-        Log.i("OLD", oldPass);
-        Log.i("NEW", newPass);
+    public void onPasswordChange(String oldPassword, String newPassword) {
+        clearPostParams();
+        addChangePasswordParams(oldPassword, newPassword);
+        new ChangePasswordTask().execute(postParams);
     }
 
     @Override
@@ -113,7 +112,7 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
         btnLogout = (ViewGroup) view.findViewById(R.id.btn_logout);
     }
 
-    private void addPostParams() {
+    private void addEditAccountParams() {
         postParams.put("method", "editUser");
         postParams.put("firstname", user.getName().getFirstName());
         postParams.put("lastname", user.getName().getLastName());
@@ -122,6 +121,13 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
         postParams.put("country", user.getCountry());
         postParams.put("city", user.getCity());
         postParams.put("tokenUser", user.getTokenUser());
+    }
+
+    private void addChangePasswordParams(String oldPassword, String newPassword) {
+        postParams.put("method", "changePassword");
+        postParams.put("email", user.getEmail());
+        postParams.put("oldpassword", oldPassword);
+        postParams.put("newpassword", newPassword);
     }
 
     private void clearPostParams() {
@@ -194,6 +200,49 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
                 getActivity().finish();
             } else {
                 Toast.makeText(getActivity(), "Logout failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        /**
+         * Check task state
+         */
+        private boolean taskSuccess(String response) {
+            if (response == null) {
+                return false;
+            }
+            try {
+                JSONObject json = new JSONObject(response);
+                String message = json.optString("message");
+                if (message.equals("Unauthorized")) {
+                    return false;
+                }
+            } catch (JSONException ex) {
+                Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
+            }
+            return true;
+        }
+    }
+
+    private class ChangePasswordTask extends AsyncTask<HashMap<String, String>, Void, String> {
+        private String requestUrl = "http://10.20.19.73/api";
+        @Override
+        protected String doInBackground(HashMap<String, String>... params) {
+            HttpHandler httpHandler = new HttpHandler(requestUrl);
+            httpHandler.addHeader("Content-Type", "application/x-www-form-urlencoded");
+            httpHandler.addHeader("Authorization", "Bearer " + user.getToken());
+            for (Map.Entry<String, String> entry : params[0].entrySet()) {
+                httpHandler.addParam(entry.getKey(), entry.getValue());
+            }
+            return httpHandler.makeServiceCall();
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            if (taskSuccess(response)) {
+                Toast.makeText(getActivity(), "Change password success", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Change password failed", Toast.LENGTH_SHORT).show();
             }
         }
 

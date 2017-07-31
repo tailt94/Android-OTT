@@ -62,10 +62,8 @@ public class ChangePasswordDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 if (isValidPasswordChange()) {
-                    Bundle passwords = new Bundle();
-                    passwords.putString(BUNDLE_OLD_PASSWORD, inputOldPassword.getText().toString());
-                    passwords.putString(BUNDLE_NEW_PASSWORD, inputNewPassword.getText().toString());
-                    mListener.onPasswordChange(passwords);
+                    mListener.onPasswordChange(inputOldPassword.getText().toString(),
+                            inputNewPassword.getText().toString());
                     dismiss();
                 } else {
                     Toast.makeText(getActivity(), messageError, Toast.LENGTH_SHORT).show();
@@ -109,7 +107,7 @@ public class ChangePasswordDialogFragment extends DialogFragment {
     }
 
     interface ChangePasswordDialogListener {
-        void onPasswordChange(Bundle passwords);
+        void onPasswordChange(String oldPassword, String newPassword);
         void onDialogCancel();
     }
 }
