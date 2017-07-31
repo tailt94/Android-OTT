@@ -25,7 +25,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SettingsFragment extends Fragment implements EditAccountDialogFragment.EditDialogListener {
+public class SettingsFragment extends Fragment implements EditAccountDialogFragment.EditDialogListener,
+        ChangePasswordDialogFragment.ChangePasswordDialogListener{
     private static final String ARG_USER = "user";
 
     private TextView tvUsername;
@@ -90,6 +91,14 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     }
 
     @Override
+    public void onPasswordChange(Bundle passwords) {
+        String oldPass = passwords.getString(ChangePasswordDialogFragment.BUNDLE_OLD_PASSWORD);
+        String newPass = passwords.getString(ChangePasswordDialogFragment.BUNDLE_NEW_PASSWORD);
+        Log.i("OLD", oldPass);
+        Log.i("NEW", newPass);
+    }
+
+    @Override
     public void onDialogCancel() {
 
     }
@@ -139,6 +148,12 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
                 logout();
             }
         });
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showChangePasswordDialog();
+            }
+        });
     }
 
     private void logout() {
@@ -149,6 +164,12 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
         EditAccountDialogFragment dialog = EditAccountDialogFragment.newInstance(user);
         dialog.setEditDialogListener(this);
         dialog.show(getFragmentManager(), "EditAccountDialogFragment");
+    }
+
+    private void showChangePasswordDialog() {
+        ChangePasswordDialogFragment dialog = new ChangePasswordDialogFragment();
+        dialog.setChangePasswordDialogListener(this);
+        dialog.show(getFragmentManager(), "ChangePasswordDialogFragment");
     }
 
     private class LogoutTask extends AsyncTask<User, Void, String> {
