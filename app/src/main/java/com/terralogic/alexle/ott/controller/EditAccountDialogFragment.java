@@ -57,7 +57,7 @@ public class EditAccountDialogFragment extends DialogFragment implements DatePic
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_edit_account, null);
+        View view = inflater.inflate(R.layout.fragment_edit_account_dialog, null);
         bindViews(view);
         showUserInfo();
         setupListeners();

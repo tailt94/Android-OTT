@@ -72,6 +72,7 @@ public class RegisterActivity extends PostActivity implements DatePickerFragment
 
     @Override
     protected void onPostDone() {
+        Toast.makeText(this, "Register success", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
@@ -110,7 +111,7 @@ public class RegisterActivity extends PostActivity implements DatePickerFragment
                     addPostParams();
                     new PostRequestTask().execute(postParams);
                 } else {
-                    Toast.makeText(RegisterActivity.this, "INVALID", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, messageError, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -120,6 +121,15 @@ public class RegisterActivity extends PostActivity implements DatePickerFragment
      * Check if the register information is valid
      */
     private boolean isValidInfo() {
+        if (!isValidPassword()) {
+            messageError = "Passwords must match";
+        }
+        if (!isValidEmail()) {
+            messageError = "Invalid email";
+        }
+        if (!isRequiredFieldFilled()) {
+            messageError = "Email and password must be filled";
+        }
         return (isRequiredFieldFilled() && isValidEmail() && isValidPassword());
     }
 

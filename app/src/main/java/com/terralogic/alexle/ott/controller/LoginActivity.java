@@ -2,7 +2,9 @@ package com.terralogic.alexle.ott.controller;
 
 import android.animation.LayoutTransition;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
@@ -12,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
+import com.terralogic.alexle.ott.model.DatabaseHandler;
+import com.terralogic.alexle.ott.model.User;
 
 public class LoginActivity extends PostActivity {
     private ViewGroup rootView;
@@ -19,6 +23,7 @@ public class LoginActivity extends PostActivity {
     private EditText inputPassword;
     private LinearLayout buttonLogin;
     private LinearLayout buttonRegister;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,23 @@ public class LoginActivity extends PostActivity {
         bindViews();
         setupListeners();
         setupLayoutTransition();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+        }
+
+        doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click back again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 
     @Override
@@ -67,7 +89,7 @@ public class LoginActivity extends PostActivity {
                     PostRequestTask loginTask = new PostRequestTask();
                     loginTask.execute(postParams);
                 } else {
-                    Toast.makeText(LoginActivity.this, "Invalid info", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, messageError, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -88,6 +110,12 @@ public class LoginActivity extends PostActivity {
     }
 
     private boolean isValidInfo() {
+        if (!isValidEmail()) {
+            messageError = "Invalid email";
+        }
+        if (!isRequiredFieldFilled()) {
+            messageError = "Email and password must be filled";
+        }
         return (isRequiredFieldFilled() && isValidEmail());
     }
 
@@ -100,5 +128,23 @@ public class LoginActivity extends PostActivity {
      */
     private boolean isRequiredFieldFilled() {
         return (!TextUtils.isEmpty(inputEmail.getText()) && !TextUtils.isEmpty(inputPassword.getText()));
+    }
+
+    private class SaveUserTask extends AsyncTask<User, Void, User> {
+        @Override
+        protected User doInBackground(User... users) {
+            DatabaseHandler db = DatabaseHandler.getInstance(LoginActivity.this);
+            db.addUser(users[0]);
+            return users[0];
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+            super.onPostExecute(user);
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            intent.putExtra(SplashActivity.EXTRA_USER, user);
+            startActivity(intent);
+            finish();
+        }
     }
 }

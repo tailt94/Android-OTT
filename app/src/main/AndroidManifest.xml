@@ -31,7 +31,8 @@
         <activity
             android:name=".controller.HomeActivity"
             android:label="@string/home_title"
-            android:theme="@style/AppThemeWithActionBar"/>
+            android:theme="@style/AppThemeWithActionBar"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

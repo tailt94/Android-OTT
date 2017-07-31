@@ -17,7 +17,7 @@
             style="@style/HomeTitleStyle"/>
         <ImageView
             android:id="@+id/btn_edit_account"
-            android:layout_width="20dp"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/vnc_account"
             android:layout_alignParentEnd="true"

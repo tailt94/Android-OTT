@@ -19,6 +19,7 @@ import java.util.Map;
 public abstract class PostActivity extends AppCompatActivity {
     protected HashMap<String, String> postParams = new HashMap<>();
     protected User user;
+    protected String messageError = "";
     protected String requestUrl = "http://10.20.19.73/user";
 
     @Override
@@ -79,24 +80,6 @@ public abstract class PostActivity extends AppCompatActivity {
                 Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
             }
             return true;
-        }
-    }
-
-    protected class SaveUserTask extends AsyncTask<User, Void, User> {
-        @Override
-        protected User doInBackground(User... users) {
-            DatabaseHandler db = DatabaseHandler.getInstance(PostActivity.this);
-            db.addUser(users[0]);
-            return users[0];
-        }
-
-        @Override
-        protected void onPostExecute(User user) {
-            super.onPostExecute(user);
-            Intent intent = new Intent(PostActivity.this, HomeActivity.class);
-            intent.putExtra(SplashActivity.EXTRA_USER, user);
-            startActivity(intent);
-            finish();
         }
     }
 }
