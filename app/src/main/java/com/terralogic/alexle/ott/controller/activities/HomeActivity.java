@@ -1,5 +1,6 @@
 package com.terralogic.alexle.ott.controller.activities;
 
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.controller.fragments.CallLogsFragment;
@@ -23,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
     private TabLayout tabLayout;
 
     private User user;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,23 @@ public class HomeActivity extends AppCompatActivity {
         setupActionBar();
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+        }
+
+        doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click back again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 
     private void bindViews() {

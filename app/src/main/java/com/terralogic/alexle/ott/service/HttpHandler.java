@@ -1,6 +1,12 @@
 package com.terralogic.alexle.ott.service;
 
 import android.os.Build;
+import android.util.Log;
+
+import com.terralogic.alexle.ott.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -84,6 +90,37 @@ public class HttpHandler {
             }
         }
         return response;
+    }
+
+    public static String getMessage(String response) {
+        try {
+            JSONObject json = new JSONObject(response);
+            return json.getString("message");
+        } catch (JSONException ex) {
+            Log.e("HttpHandler", "JSON mapping error!");
+        }
+        return null;
+    }
+
+    /**
+     * Check is the request is successful
+     * @param response Response body returned by the server
+     */
+    public static boolean isSuccessful(String response) {
+        if (response == null) {
+            return false;
+        }
+        String message = getMessage(response);
+        if (message == null) {
+            return false;
+        }
+        if (message.equals("Login successful")
+                || message.equals("Successful")
+                || message.equals("Logout successful")
+                || message.equals("Update successful !!!")) {
+            return true;
+        }
+        return false;
     }
 
     /**

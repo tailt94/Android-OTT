@@ -88,14 +88,12 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
 
     @Override
     public void onDialogAccountUpdate(User user) {
-        clearPostParams();
         addEditAccountParams();
         new PostNewUserInfoTask().execute(user);
     }
 
     @Override
     public void onDialogPasswordChange(String oldPassword, String newPassword) {
-        clearPostParams();
         addChangePasswordParams(oldPassword, newPassword);
         new ChangePasswordTask().execute(postParams);
     }
@@ -116,6 +114,7 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     }
 
     private void addEditAccountParams() {
+        postParams.clear();
         postParams.put("method", "editUser");
         postParams.put("firstname", user.getName().getFirstName());
         postParams.put("lastname", user.getName().getLastName());
@@ -127,14 +126,11 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     }
 
     private void addChangePasswordParams(String oldPassword, String newPassword) {
+        postParams.clear();
         postParams.put("method", "changePassword");
         postParams.put("email", user.getEmail());
         postParams.put("oldpassword", oldPassword);
         postParams.put("newpassword", newPassword);
-    }
-
-    private void clearPostParams() {
-        postParams.clear();
     }
 
     private void showUserInfo() {
@@ -196,33 +192,14 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
         @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
-            if (taskSuccess(response)) {
+            if (HttpHandler.isSuccessful(response)) {
                 getActivity().deleteDatabase(DatabaseHandler.DATABASE_NAME);
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();
             } else {
-                Toast.makeText(getActivity(), "Logout failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), HttpHandler.getMessage(response), Toast.LENGTH_SHORT).show();
             }
-        }
-
-        /**
-         * Check task state
-         */
-        private boolean taskSuccess(String response) {
-            if (response == null) {
-                return false;
-            }
-            try {
-                JSONObject json = new JSONObject(response);
-                String message = json.optString("message");
-                if (message.equals("Unauthorized")) {
-                    return false;
-                }
-            } catch (JSONException ex) {
-                Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
-            }
-            return true;
         }
     }
 
@@ -242,30 +219,7 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
         @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
-            if (taskSuccess(response)) {
-                Toast.makeText(getActivity(), "Change password success", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getActivity(), "Change password failed", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        /**
-         * Check task state
-         */
-        private boolean taskSuccess(String response) {
-            if (response == null) {
-                return false;
-            }
-            try {
-                JSONObject json = new JSONObject(response);
-                String message = json.optString("message");
-                if (message.equals("Unauthorized")) {
-                    return false;
-                }
-            } catch (JSONException ex) {
-                Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
-            }
-            return true;
+            Toast.makeText(getActivity(), HttpHandler.getMessage(response), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -288,32 +242,13 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
         @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
-            if (taskSuccess(response)) {
+            if (HttpHandler.isSuccessful(response)) {
                 SettingsFragment.this.user = requestUser;
                 showUserInfo();
                 new UpdateUserTask().execute(requestUser);
             } else {
-                Toast.makeText(getActivity(), "Send request failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), HttpHandler.getMessage(response), Toast.LENGTH_SHORT).show();
             }
-        }
-
-        /**
-         * Check task state
-         */
-        private boolean taskSuccess(String response) {
-            if (response == null) {
-                return false;
-            }
-            try {
-                JSONObject json = new JSONObject(response);
-                String message = json.optString("message");
-                if (message.equals("Update successful !!!")) {
-                    return true;
-                }
-            } catch (JSONException ex) {
-                Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
-            }
-            return false;
         }
     }
 
@@ -334,5 +269,4 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
             }
         }
     }
-
 }

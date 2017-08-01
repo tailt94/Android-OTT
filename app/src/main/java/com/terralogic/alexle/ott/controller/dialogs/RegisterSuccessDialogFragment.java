@@ -1,7 +1,9 @@
 package com.terralogic.alexle.ott.controller.dialogs;
 
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +27,7 @@ public class RegisterSuccessDialogFragment extends DialogFragment {
     private ViewGroup btnOK;
 
     private String email;
+    private RegisterSuccessListener mListener;
 
     public RegisterSuccessDialogFragment() {
         // Required empty public constructor
@@ -39,11 +42,28 @@ public class RegisterSuccessDialogFragment extends DialogFragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (RegisterSuccessListener) context;
+        } catch (ClassCastException ex) {
+            throw new ClassCastException(context.toString()
+                    + " must implement RegisterSuccessListener");
+        }
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             email = getArguments().getString(ARGS_EMAIL);
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     @NonNull
@@ -69,8 +89,13 @@ public class RegisterSuccessDialogFragment extends DialogFragment {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mListener.onDialogRegisterSuccess();
                 dismiss();
             }
         });
+    }
+
+    public interface RegisterSuccessListener {
+        void onDialogRegisterSuccess();
     }
 }

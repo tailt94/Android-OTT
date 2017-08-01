@@ -3,6 +3,7 @@ package com.terralogic.alexle.ott.controller.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -28,6 +29,16 @@ public class ForgotPasswordDialogFragment extends DialogFragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (ForgotPasswordDialogListener) context;
+        } catch (ClassCastException ex) {
+            throw new ClassCastException(context.toString()
+                    + " must implement ForgotPasswordDialogListener");
+        }
+    }
 
     @NonNull
     @Override
@@ -39,6 +50,12 @@ public class ForgotPasswordDialogFragment extends DialogFragment {
         setupListeners();
         builder.setView(view);
         return builder.create();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     private void bindViews(View view) {
@@ -54,15 +71,6 @@ public class ForgotPasswordDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-    }
-
-    public void setForgotPasswordDialogListener(Activity parentActivity) {
-        try {
-            mListener = (ForgotPasswordDialogListener) parentActivity;
-        } catch (ClassCastException ex) {
-            throw new ClassCastException(parentActivity.toString()
-                    + " must implement ForgotPasswordDialogListener");
-        }
     }
 
     public interface ForgotPasswordDialogListener {

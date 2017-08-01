@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
+import com.terralogic.alexle.ott.utils.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,22 +79,15 @@ public class ChangePasswordDialogFragment extends DialogFragment {
     }
 
     private boolean isValidPasswordChange() {
-        if (!isRequiredFieldsFilled()) {
+        if (!Utils.isRequiredFieldsFilled(inputOldPassword, inputNewPassword, inputConfirmPassword)) {
             messageError = "Passwords must not be empty";
+            return false;
         }
-        if (!isValidNewPassword()) {
+        if (!Utils.isValidPassword(inputNewPassword, inputConfirmPassword)) {
             messageError = "Please confirm your new password again";
+            return false;
         }
-        return (isValidNewPassword() && isRequiredFieldsFilled());
-    }
-
-    private boolean isValidNewPassword() {
-        return (inputNewPassword.getText().toString().equals(inputConfirmPassword.getText().toString()));
-    }
-
-    private boolean isRequiredFieldsFilled() {
-        return (!TextUtils.isEmpty(inputOldPassword.getText()) && !TextUtils.isEmpty(inputNewPassword.getText())
-                && !TextUtils.isEmpty(inputConfirmPassword.getText()));
+        return true;
     }
 
     public void setChangePasswordDialogListener(Fragment parentFragment) {

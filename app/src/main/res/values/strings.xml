@@ -3,6 +3,11 @@
     <string name="register_tittle">Register Account</string>
     <string name="home_title">VNC OTT</string>
     <string name="ok">OK</string>
+    
+    <string name="request_success_01">Login successful</string>
+    <string name="request_success_02">Successful</string>
+    <string name="request_success_03">Logout successful</string>
+    <string name="request_success_04">Update successful !!!</string>
 
     <string name="login_header_title">Always Be Connected</string>
     <string name="login_input_email">Email</string>
@@ -68,7 +73,7 @@
     <string name="change_password_dialog_cancel">CANCEL</string>
 
     <string name="register_success_dialog_OK">OK</string>
-    
+
     <string name="forgot_password_dialog_title">Forgot password</string>
     <string name="forgot_password_dialog_content">Please enter your email address and we will send you a new password</string>
     <string name="forgot_password_dialog_send">SEND</string>

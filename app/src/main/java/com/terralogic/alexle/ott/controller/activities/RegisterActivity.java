@@ -2,8 +2,10 @@ package com.terralogic.alexle.ott.controller.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -15,8 +17,11 @@ import android.widget.Toast;
 import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.controller.dialogs.DatePickerDialogFragment;
 import com.terralogic.alexle.ott.controller.dialogs.RegisterSuccessDialogFragment;
+import com.terralogic.alexle.ott.service.HttpHandler;
+import com.terralogic.alexle.ott.utils.Utils;
 
-public class RegisterActivity extends PostActivity implements DatePickerDialogFragment.OnDateChangeListener {
+public class RegisterActivity extends PostActivity implements DatePickerDialogFragment.OnDateChangeListener,
+        RegisterSuccessDialogFragment.RegisterSuccessListener{
     private EditText inputEmail;
     private EditText inputPassword;
     private EditText inputConfirmPassword;
@@ -35,6 +40,17 @@ public class RegisterActivity extends PostActivity implements DatePickerDialogFr
         setContentView(R.layout.activity_register);
         bindViews();
         setupListeners();
+        setupActionBar();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return false;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -46,6 +62,7 @@ public class RegisterActivity extends PostActivity implements DatePickerDialogFr
 
     @Override
     protected void addPostParams() {
+        postParams.clear();
         postParams.put("method", "register");
         if (!TextUtils.isEmpty(inputEmail.getText())) {
             postParams.put("email", inputEmail.getText().toString());
@@ -79,8 +96,10 @@ public class RegisterActivity extends PostActivity implements DatePickerDialogFr
     }
 
     @Override
-    protected void onPostFailed() {
-        Toast.makeText(this, "Register failed", Toast.LENGTH_SHORT).show();
+    public void onDialogRegisterSuccess() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void bindViews() {
@@ -118,32 +137,29 @@ public class RegisterActivity extends PostActivity implements DatePickerDialogFr
         });
     }
 
+    private void setupActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
     /**
      * Check if the register information is valid
      */
     private boolean isValidInfo() {
-        if (!isValidPassword()) {
-            messageError = "Passwords must match";
-        }
-        if (!isValidEmail()) {
-            messageError = "Invalid email";
-        }
-        if (!isRequiredFieldFilled()) {
+        if (!Utils.isRequiredFieldsFilled(inputEmail, inputPassword, inputConfirmPassword)) {
             messageError = "Email and password must be filled";
+            return false;
         }
-        return (isRequiredFieldFilled() && isValidEmail() && isValidPassword());
-    }
-
-    private boolean isValidEmail() {
-        return Patterns.EMAIL_ADDRESS.matcher(inputEmail.getText()).matches();
-    }
-
-    private boolean isValidPassword() {
-        return (inputPassword.getText().toString().equals(inputConfirmPassword.getText().toString()));
-    }
-
-    private boolean isRequiredFieldFilled() {
-        return (!TextUtils.isEmpty(inputEmail.getText()) && !TextUtils.isEmpty(inputPassword.getText())
-                    && !TextUtils.isEmpty(inputConfirmPassword.getText()));
+        if (!Utils.isValidEmail(inputEmail.getText())) {
+            messageError = "Invalid email";
+            return false;
+        }
+        if (!Utils.isValidPassword(inputPassword, inputConfirmPassword)) {
+            messageError = "Passwords must match";
+            return false;
+        }
+        return true;
     }
 }

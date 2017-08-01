@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.User;
@@ -32,7 +33,6 @@ public abstract class PostActivity extends AppCompatActivity {
      */
     protected abstract void addPostParams();
     protected abstract void onPostDone();
-    protected abstract void onPostFailed();
 
     protected class PostRequestTask extends AsyncTask<HashMap<String, String>, Void, String> {
         @Override
@@ -46,40 +46,18 @@ public abstract class PostActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            if (taskSuccess(s)) {
+        protected void onPostExecute(String response) {
+            if (HttpHandler.isSuccessful(response)) {
                 try {
-                    JSONObject json = new JSONObject(s);
+                    JSONObject json = new JSONObject(response);
                     user = new User(json.optJSONObject("data"));
                     onPostDone();
                 } catch (JSONException ex) {
                     Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
                 }
             } else {
-                onPostFailed();
+                Toast.makeText(PostActivity.this, HttpHandler.getMessage(response), Toast.LENGTH_SHORT).show();
             }
-        }
-
-        /**
-         * Check task state
-         */
-        private boolean taskSuccess(String response) {
-            if (response == null) {
-                return false;
-            }
-            try {
-                JSONObject json = new JSONObject(response);
-                String message = json.optString("message");
-                if (message.equals("Password is wrong, please try again")
-                        || message.equals("Account doesn't exist")
-                        || message.equals("Account already exist !!!")
-                        || message.equals("Unauthorized")) {
-                    return false;
-                }
-            } catch (JSONException ex) {
-                Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
-            }
-            return true;
         }
     }
 }

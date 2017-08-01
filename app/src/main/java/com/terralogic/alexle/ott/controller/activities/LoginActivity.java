@@ -20,6 +20,7 @@ import com.terralogic.alexle.ott.controller.dialogs.ForgotPasswordDialogFragment
 import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.User;
 import com.terralogic.alexle.ott.service.HttpHandler;
+import com.terralogic.alexle.ott.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,6 +62,7 @@ public class LoginActivity extends PostActivity implements ForgotPasswordDialogF
 
     @Override
     protected void addPostParams() {
+        postParams.clear();
         postParams.put("method", "login");
         if (!TextUtils.isEmpty(inputEmail.getText())) {
             postParams.put("email", inputEmail.getText().toString());
@@ -76,13 +78,12 @@ public class LoginActivity extends PostActivity implements ForgotPasswordDialogF
     }
 
     @Override
-    protected void onPostFailed() {
-        Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void onDialogSendEmail(String email) {
-        new ForgotPasswordTask().execute(email);
+        if (!Utils.isValidEmail(email)) {
+            Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show();
+        } else {
+            new ForgotPasswordTask().execute(email);
+        }
     }
 
     private void bindViews() {
@@ -118,7 +119,6 @@ public class LoginActivity extends PostActivity implements ForgotPasswordDialogF
             @Override
             public void onClick(View view) {
                 ForgotPasswordDialogFragment dialog = new ForgotPasswordDialogFragment();
-                dialog.setForgotPasswordDialogListener(LoginActivity.this);
                 dialog.show(getSupportFragmentManager(), "ForgotPasswordDialogFragment");
             }
         });
@@ -130,24 +130,15 @@ public class LoginActivity extends PostActivity implements ForgotPasswordDialogF
     }
 
     private boolean isValidInfo() {
-        if (!isValidEmail()) {
-            messageError = "Invalid email";
-        }
-        if (!isRequiredFieldFilled()) {
+        if (!Utils.isRequiredFieldsFilled(inputEmail, inputPassword)) {
             messageError = "Email and password must be filled";
+            return false;
         }
-        return (isRequiredFieldFilled() && isValidEmail());
-    }
-
-    private boolean isValidEmail() {
-        return Patterns.EMAIL_ADDRESS.matcher(inputEmail.getText()).matches();
-    }
-
-    /**
-     * Check if the Email and Password field is filled
-     */
-    private boolean isRequiredFieldFilled() {
-        return (!TextUtils.isEmpty(inputEmail.getText()) && !TextUtils.isEmpty(inputPassword.getText()));
+        if (!Utils.isValidEmail(inputEmail.getText())) {
+            messageError = "Invalid email";
+            return false;
+        }
+        return true;
     }
 
     private class ForgotPasswordTask extends AsyncTask<String, Void, String> {
@@ -164,7 +155,7 @@ public class LoginActivity extends PostActivity implements ForgotPasswordDialogF
         @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
-            if (taskSuccess(response)) {
+            if (HttpHandler.isSuccessful(response)) {
                 try {
                     JSONObject json = new JSONObject(response);
                     String newPassword = json.optJSONObject("data").optString("newPassword");
@@ -173,27 +164,8 @@ public class LoginActivity extends PostActivity implements ForgotPasswordDialogF
                     Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
                 }
             } else {
-                Toast.makeText(LoginActivity.this, "Account doesn't exist", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, HttpHandler.getMessage(response), Toast.LENGTH_SHORT).show();
             }
-        }
-
-        /**
-         * Check task state
-         */
-        private boolean taskSuccess(String response) {
-            if (response == null) {
-                return false;
-            }
-            try {
-                JSONObject json = new JSONObject(response);
-                String message = json.optString("message");
-                if (message.equals("Successful")) {
-                    return true;
-                }
-            } catch (JSONException ex) {
-                Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
-            }
-            return false;
         }
     }
 
