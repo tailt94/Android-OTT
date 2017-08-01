@@ -6,21 +6,29 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
+import com.terralogic.alexle.ott.controller.dialogs.ForgotPasswordDialogFragment;
 import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.User;
+import com.terralogic.alexle.ott.service.HttpHandler;
 
-public class LoginActivity extends PostActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class LoginActivity extends PostActivity implements ForgotPasswordDialogFragment.ForgotPasswordDialogListener {
     private ViewGroup rootView;
     private EditText inputEmail;
     private EditText inputPassword;
+    private TextView buttonForgotPassword;
     private LinearLayout buttonLogin;
     private LinearLayout buttonRegister;
     private boolean doubleBackToExitPressedOnce = false;
@@ -72,10 +80,16 @@ public class LoginActivity extends PostActivity {
         Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onDialogSendEmail(String email) {
+        new ForgotPasswordTask().execute(email);
+    }
+
     private void bindViews() {
         inputEmail = (EditText) findViewById(R.id.input_email);
         inputPassword = (EditText) findViewById(R.id.input_password);
         rootView = (ViewGroup) findViewById(R.id.root);
+        buttonForgotPassword = (TextView) findViewById(R.id.btn_forgot_password);
         buttonLogin = (LinearLayout) findViewById(R.id.btn_login);
         buttonRegister = (LinearLayout) findViewById(R.id.btn_register);
     }
@@ -100,8 +114,14 @@ public class LoginActivity extends PostActivity {
                 startActivity(intent);
             }
         });
-
-
+        buttonForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ForgotPasswordDialogFragment dialog = new ForgotPasswordDialogFragment();
+                dialog.setForgotPasswordDialogListener(LoginActivity.this);
+                dialog.show(getSupportFragmentManager(), "ForgotPasswordDialogFragment");
+            }
+        });
     }
 
     private void setupLayoutTransition() {
@@ -128,6 +148,53 @@ public class LoginActivity extends PostActivity {
      */
     private boolean isRequiredFieldFilled() {
         return (!TextUtils.isEmpty(inputEmail.getText()) && !TextUtils.isEmpty(inputPassword.getText()));
+    }
+
+    private class ForgotPasswordTask extends AsyncTask<String, Void, String> {
+        private String requestUrl = "http://10.20.19.73/user";
+        @Override
+        protected String doInBackground(String... emails) {
+            HttpHandler service = new HttpHandler(requestUrl);
+            service.addHeader("Content-Type", "application/x-www-form-urlencoded");
+            service.addParam("method", "forgotpassword");
+            service.addParam("email", emails[0]);
+            return service.makeServiceCall();
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            if (taskSuccess(response)) {
+                try {
+                    JSONObject json = new JSONObject(response);
+                    String newPassword = json.optJSONObject("data").optString("newPassword");
+                    Toast.makeText(LoginActivity.this, newPassword, Toast.LENGTH_SHORT).show();
+                } catch (JSONException ex) {
+                    Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
+                }
+            } else {
+                Toast.makeText(LoginActivity.this, "Account doesn't exist", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        /**
+         * Check task state
+         */
+        private boolean taskSuccess(String response) {
+            if (response == null) {
+                return false;
+            }
+            try {
+                JSONObject json = new JSONObject(response);
+                String message = json.optString("message");
+                if (message.equals("Successful")) {
+                    return true;
+                }
+            } catch (JSONException ex) {
+                Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
+            }
+            return false;
+        }
     }
 
     private class SaveUserTask extends AsyncTask<User, Void, User> {

@@ -68,4 +68,8 @@
     <string name="change_password_dialog_cancel">CANCEL</string>
 
     <string name="register_success_dialog_OK">OK</string>
+    
+    <string name="forgot_password_dialog_title">Forgot password</string>
+    <string name="forgot_password_dialog_content">Please enter your email address and we will send you a new password</string>
+    <string name="forgot_password_dialog_send">SEND</string>
 </resources>
