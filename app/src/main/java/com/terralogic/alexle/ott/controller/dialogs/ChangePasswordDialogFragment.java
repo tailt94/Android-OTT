@@ -41,7 +41,7 @@ public class ChangePasswordDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_change_password_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_change_password, null);
         bindViews(view);
         setupListeners();
         dialogBuilder.setView(view);

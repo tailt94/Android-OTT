@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.controller.dialogs.DatePickerDialogFragment;
+import com.terralogic.alexle.ott.controller.dialogs.RegisterSuccessDialogFragment;
 
 public class RegisterActivity extends PostActivity implements DatePickerDialogFragment.OnDateChangeListener {
     private EditText inputEmail;
@@ -73,9 +74,8 @@ public class RegisterActivity extends PostActivity implements DatePickerDialogFr
 
     @Override
     protected void onPostDone() {
-        Toast.makeText(this, "Register success", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        RegisterSuccessDialogFragment dialog = RegisterSuccessDialogFragment.newInstance(inputEmail.getText().toString());
+        dialog.show(getSupportFragmentManager(), "RegisterSuccessDialogFragment");
     }
 
     @Override

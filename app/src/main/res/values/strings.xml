@@ -59,11 +59,13 @@
     <string name="edit_dialog_city">City</string>
     <string name="edit_dialog_update">Update</string>
     <string name="edit_dialog_cancel">Cancel</string>
-    
+
     <string name="change_password_dialog_title">Change Password</string>
     <string name="change_password_dialog_old_password">Old Password</string>
     <string name="change_password_dialog_new_password">New Password</string>
     <string name="change_password_dialog_confirm_new_password">Confirm New Password</string>
     <string name="change_password_dialog_change">CHANGE</string>
     <string name="change_password_dialog_cancel">CANCEL</string>
+
+    <string name="register_success_dialog_OK">OK</string>
 </resources>
