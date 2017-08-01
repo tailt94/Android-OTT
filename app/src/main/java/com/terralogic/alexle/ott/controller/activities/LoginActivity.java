@@ -1,4 +1,4 @@
-package com.terralogic.alexle.ott.controller;
+package com.terralogic.alexle.ott.controller.activities;
 
 import android.animation.LayoutTransition;
 import android.content.Intent;

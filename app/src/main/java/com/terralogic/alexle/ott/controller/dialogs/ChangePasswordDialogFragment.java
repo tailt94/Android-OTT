@@ -1,10 +1,9 @@
-package com.terralogic.alexle.ott.controller;
+package com.terralogic.alexle.ott.controller.dialogs;
 
 
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -62,7 +61,7 @@ public class ChangePasswordDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 if (isValidPasswordChange()) {
-                    mListener.onPasswordChange(inputOldPassword.getText().toString(),
+                    mListener.onDialogPasswordChange(inputOldPassword.getText().toString(),
                             inputNewPassword.getText().toString());
                     dismiss();
                 } else {
@@ -106,8 +105,8 @@ public class ChangePasswordDialogFragment extends DialogFragment {
         }
     }
 
-    interface ChangePasswordDialogListener {
-        void onPasswordChange(String oldPassword, String newPassword);
+    public interface ChangePasswordDialogListener {
+        void onDialogPasswordChange(String oldPassword, String newPassword);
         void onDialogCancel();
     }
 }

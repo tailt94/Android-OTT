@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.terralogic.alexle.ott.controller.EditAccountDialogFragment">
+    tools:context="com.terralogic.alexle.ott.controller.dialogs.EditAccountDialogFragment">
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"

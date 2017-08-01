@@ -1,4 +1,4 @@
-package com.terralogic.alexle.ott.controller;
+package com.terralogic.alexle.ott.controller.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,7 +17,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         //TEST
-        deleteDatabase(DatabaseHandler.DATABASE_NAME);
+        //deleteDatabase(DatabaseHandler.DATABASE_NAME);
         new LoadUserTask().execute();
     }
 

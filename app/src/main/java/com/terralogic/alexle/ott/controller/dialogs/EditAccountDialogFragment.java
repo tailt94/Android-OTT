@@ -1,4 +1,4 @@
-package com.terralogic.alexle.ott.controller;
+package com.terralogic.alexle.ott.controller.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.model.Name;
 import com.terralogic.alexle.ott.model.User;
 
-public class EditAccountDialogFragment extends DialogFragment implements DatePickerFragment.OnDateChangeListener{
+public class EditAccountDialogFragment extends DialogFragment implements DatePickerDialogFragment.OnDateChangeListener {
     private static final String ARG_USER = "user";
 
     private EditText inputFirstName;
@@ -108,7 +108,7 @@ public class EditAccountDialogFragment extends DialogFragment implements DatePic
             public void onClick(View view) {
                 updateUser();
                 dismiss();
-                mListener.onDialogUpdate(user);
+                mListener.onDialogAccountUpdate(user);
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -146,9 +146,9 @@ public class EditAccountDialogFragment extends DialogFragment implements DatePic
     }
 
     private void showDatePicker() {
-        DatePickerFragment datePicker = new DatePickerFragment();
+        DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
         datePicker.setDateChangeListener(this);
-        datePicker.show(getFragmentManager(), "DatePickerFragment");
+        datePicker.show(getFragmentManager(), "DatePickerDialogFragment");
     }
 
     public void setEditDialogListener(Fragment parentFragment) {
@@ -160,8 +160,8 @@ public class EditAccountDialogFragment extends DialogFragment implements DatePic
         }
     }
 
-    interface EditDialogListener {
-        void onDialogUpdate(User user);
+    public interface EditDialogListener {
+        void onDialogAccountUpdate(User user);
         void onDialogCancel();
     }
 }

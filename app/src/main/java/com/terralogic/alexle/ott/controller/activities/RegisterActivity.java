@@ -1,4 +1,4 @@
-package com.terralogic.alexle.ott.controller;
+package com.terralogic.alexle.ott.controller.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
+import com.terralogic.alexle.ott.controller.dialogs.DatePickerDialogFragment;
 
-public class RegisterActivity extends PostActivity implements DatePickerFragment.OnDateChangeListener {
+public class RegisterActivity extends PostActivity implements DatePickerDialogFragment.OnDateChangeListener {
     private EditText inputEmail;
     private EditText inputPassword;
     private EditText inputConfirmPassword;
@@ -99,9 +100,9 @@ public class RegisterActivity extends PostActivity implements DatePickerFragment
         birthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerFragment datePicker = new DatePickerFragment();
+                DatePickerDialogFragment datePicker = new DatePickerDialogFragment();
                 datePicker.setDateChangeListener(RegisterActivity.this);
-                datePicker.show(getSupportFragmentManager(), "DatePickerFragment");
+                datePicker.show(getSupportFragmentManager(), "DatePickerDialogFragment");
             }
         });
         buttonRegister.setOnClickListener(new View.OnClickListener() {

@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".controller.SplashActivity"
+            android:name=".controller.activities.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,15 +21,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".controller.LoginActivity"
+            android:name=".controller.activities.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".controller.RegisterActivity"
+            android:name=".controller.activities.RegisterActivity"
             android:label="@string/register_tittle"
             android:theme="@style/AppThemeWithActionBar" />
         <activity
-            android:name=".controller.HomeActivity"
+            android:name=".controller.activities.HomeActivity"
             android:label="@string/home_title"
             android:theme="@style/AppThemeWithActionBar"
             android:windowSoftInputMode="adjustResize"/>

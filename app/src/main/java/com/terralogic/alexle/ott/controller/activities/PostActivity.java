@@ -1,4 +1,4 @@
-package com.terralogic.alexle.ott.controller;
+package com.terralogic.alexle.ott.controller.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;

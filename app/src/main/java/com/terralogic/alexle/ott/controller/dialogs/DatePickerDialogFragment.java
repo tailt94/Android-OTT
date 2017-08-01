@@ -1,4 +1,4 @@
-package com.terralogic.alexle.ott.controller;
+package com.terralogic.alexle.ott.controller.dialogs;
 
 
 
@@ -17,7 +17,7 @@ import java.util.Calendar;
  * Created by alex.le on 28-Jul-17.
  */
 
-public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private OnDateChangeListener mListener;
 
     @NonNull
@@ -55,7 +55,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         }
     }
 
-    interface OnDateChangeListener {
+    public interface OnDateChangeListener {
         void onDateChange(int year, int month, int day);
     }
 }

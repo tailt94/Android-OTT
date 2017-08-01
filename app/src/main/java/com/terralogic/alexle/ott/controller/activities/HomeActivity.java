@@ -1,4 +1,4 @@
-package com.terralogic.alexle.ott.controller;
+package com.terralogic.alexle.ott.controller.activities;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.terralogic.alexle.ott.R;
+import com.terralogic.alexle.ott.controller.fragments.CallLogsFragment;
+import com.terralogic.alexle.ott.controller.fragments.DialFragment;
+import com.terralogic.alexle.ott.controller.fragments.SettingsFragment;
 import com.terralogic.alexle.ott.model.User;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.terralogic.alexle.ott.controller;
+package com.terralogic.alexle.ott.controller.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
+import com.terralogic.alexle.ott.controller.activities.LoginActivity;
+import com.terralogic.alexle.ott.controller.dialogs.ChangePasswordDialogFragment;
+import com.terralogic.alexle.ott.controller.dialogs.EditAccountDialogFragment;
 import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.User;
 import com.terralogic.alexle.ott.service.HttpHandler;
@@ -26,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SettingsFragment extends Fragment implements EditAccountDialogFragment.EditDialogListener,
-        ChangePasswordDialogFragment.ChangePasswordDialogListener{
+        ChangePasswordDialogFragment.ChangePasswordDialogListener {
     private static final String ARG_USER = "user";
 
     private TextView tvUsername;
@@ -84,14 +87,14 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     }
 
     @Override
-    public void onDialogUpdate(User user) {
+    public void onDialogAccountUpdate(User user) {
         clearPostParams();
         addEditAccountParams();
         new PostNewUserInfoTask().execute(user);
     }
 
     @Override
-    public void onPasswordChange(String oldPassword, String newPassword) {
+    public void onDialogPasswordChange(String oldPassword, String newPassword) {
         clearPostParams();
         addChangePasswordParams(oldPassword, newPassword);
         new ChangePasswordTask().execute(postParams);
