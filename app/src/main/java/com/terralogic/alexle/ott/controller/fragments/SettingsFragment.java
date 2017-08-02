@@ -18,6 +18,7 @@ import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.controller.activities.LoginActivity;
 import com.terralogic.alexle.ott.controller.dialogs.ChangePasswordDialogFragment;
 import com.terralogic.alexle.ott.controller.dialogs.EditAccountDialogFragment;
+import com.terralogic.alexle.ott.controller.dialogs.LogoutDialogFragment;
 import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.User;
 import com.terralogic.alexle.ott.service.HttpHandler;
@@ -29,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SettingsFragment extends Fragment implements EditAccountDialogFragment.EditDialogListener,
-        ChangePasswordDialogFragment.ChangePasswordDialogListener {
+        ChangePasswordDialogFragment.ChangePasswordDialogListener, LogoutDialogFragment.LogoutDialogListener {
     private static final String ARG_USER = "user";
 
     private TextView tvUsername;
@@ -99,6 +100,11 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     }
 
     @Override
+    public void onDialogLogoutConfirm() {
+        new LogoutTask().execute(user);
+    }
+
+    @Override
     public void onDialogCancel() {
 
     }
@@ -150,7 +156,7 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logout();
+                showLogoutDialog();
             }
         });
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
@@ -159,10 +165,6 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
                 showChangePasswordDialog();
             }
         });
-    }
-
-    private void logout() {
-        new LogoutTask().execute(user);
     }
 
     private void showEditAccountDialog() {
@@ -175,6 +177,12 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
         ChangePasswordDialogFragment dialog = new ChangePasswordDialogFragment();
         dialog.setChangePasswordDialogListener(this);
         dialog.show(getFragmentManager(), "ChangePasswordDialogFragment");
+    }
+
+    private void showLogoutDialog() {
+        LogoutDialogFragment dialog = new LogoutDialogFragment();
+        dialog.setLogoutDialogListener(this);
+        dialog.show(getFragmentManager(), "LogoutDialogFragment");
     }
 
     private class LogoutTask extends AsyncTask<User, Void, String> {
@@ -192,14 +200,10 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
         @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
-            if (HttpHandler.isSuccessful(response)) {
-                getActivity().deleteDatabase(DatabaseHandler.DATABASE_NAME);
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-                getActivity().finish();
-            } else {
-                Toast.makeText(getActivity(), HttpHandler.getMessage(response), Toast.LENGTH_SHORT).show();
-            }
+            getActivity().deleteDatabase(DatabaseHandler.DATABASE_NAME);
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
         }
     }
 
