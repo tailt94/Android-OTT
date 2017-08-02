@@ -1,9 +1,7 @@
 package com.terralogic.alexle.ott.service;
 
-import android.os.Build;
-import android.util.Log;
 
-import com.terralogic.alexle.ott.R;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;

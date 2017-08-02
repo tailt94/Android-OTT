@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +20,6 @@ import com.terralogic.alexle.ott.utils.Utils;
  * A simple {@link Fragment} subclass.
  */
 public class ChangePasswordDialogFragment extends DialogFragment {
-    public static final String BUNDLE_OLD_PASSWORD = "old_password";
-    public static final String BUNDLE_NEW_PASSWORD = "new_password";
-
     private EditText inputOldPassword;
     private EditText inputNewPassword;
     private EditText inputConfirmPassword;

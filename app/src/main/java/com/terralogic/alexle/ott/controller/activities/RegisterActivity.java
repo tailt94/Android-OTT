@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.controller.dialogs.DatePickerDialogFragment;
 import com.terralogic.alexle.ott.controller.dialogs.RegisterSuccessDialogFragment;
-import com.terralogic.alexle.ott.service.HttpHandler;
 import com.terralogic.alexle.ott.utils.Utils;
 
 public class RegisterActivity extends PostActivity implements DatePickerDialogFragment.OnDateChangeListener,

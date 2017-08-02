@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +21,6 @@ import com.terralogic.alexle.ott.controller.dialogs.LogoutDialogFragment;
 import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.User;
 import com.terralogic.alexle.ott.service.HttpHandler;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -200,7 +196,8 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
         @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
-            getActivity().deleteDatabase(DatabaseHandler.DATABASE_NAME);
+            DatabaseHandler db = DatabaseHandler.getInstance(getActivity());
+            db.clearDatabase();
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
             getActivity().finish();
