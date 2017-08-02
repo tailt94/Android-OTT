@@ -33,7 +33,7 @@
     <string name="register_female">Female</string>
     <string name="register_other">Other</string>
     <string name="register_birthday">Date Of Birth</string>
-    <string name="register_input_birthday">Your birthday</string>
+    <string name="register_input_birthday">Select day</string>
     <string name="register_country">Country</string>
     <string name="register_input_country">Your country</string>
     <string name="register_city">City</string>
@@ -73,8 +73,6 @@
     <string name="change_password_dialog_confirm_new_password">Confirm New Password</string>
     <string name="change_password_dialog_change">CHANGE</string>
     <string name="change_password_dialog_cancel">CANCEL</string>
-
-    <string name="register_success_dialog_OK">OK</string>
 
     <string name="forgot_password_dialog_title">Forgot password</string>
     <string name="forgot_password_dialog_content">Please enter your email address and we will send you a new password</string>

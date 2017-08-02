@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
+import com.terralogic.alexle.ott.utils.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,8 +68,13 @@ public class ForgotPasswordDialogFragment extends DialogFragment {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onDialogSendEmail(inputEmail.getText().toString());
-                dismiss();
+                String email = inputEmail.getText().toString();
+                if (Utils.isValidEmail(email)) {
+                    mListener.onDialogSendEmail(email);
+                    dismiss();
+                } else {
+                    Toast.makeText(getActivity(), "Invalid email", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

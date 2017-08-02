@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="register_vertical_dimen">10dp</dimen>
+    <dimen name="register_text_size">18sp</dimen>
+    <dimen name="register_vertical_dimen">15dp</dimen>
     <dimen name="home_vertical_dimen">12dp</dimen>
-    <dimen name="edit_dialog_vertical_dimen">10dp</dimen>
+    <dimen name="edit_dialog_vertical_dimen">12dp</dimen>
+    <dimen name="edit_dialog_text_size">15sp</dimen>
 </resources>

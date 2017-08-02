@@ -68,7 +68,8 @@
                 android:layout_below="@+id/input_last_name"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="@dimen/edit_dialog_vertical_dimen"
-                android:text="@string/edit_dialog_sex"/>
+                android:text="@string/edit_dialog_sex"
+                android:textSize="@dimen/edit_dialog_text_size"/>
             <RadioGroup
                 android:id="@+id/group_sex"
                 android:layout_width="wrap_content"
@@ -102,15 +103,20 @@
                 android:layout_below="@+id/group_sex"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="@dimen/edit_dialog_vertical_dimen"
-                android:text="@string/edit_dialog_birthday"/>
+                android:text="@string/edit_dialog_birthday"
+                android:textSize="@dimen/edit_dialog_text_size"/>
             <TextView
                 android:id="@+id/input_birthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/birthday"
                 android:layout_alignBottom="@+id/birthday"
-                android:layout_marginStart="20dp"
-                android:text="@string/edit_dialog_input_birthday"/>
+                android:layout_marginStart="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:text="@string/edit_dialog_input_birthday"
+                android:textSize="@dimen/edit_dialog_text_size"
+                android:textColor="@android:color/black"/>
             <TextView
                 android:id="@+id/country"
                 android:layout_width="wrap_content"
@@ -118,7 +124,8 @@
                 android:layout_below="@+id/birthday"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="@dimen/edit_dialog_vertical_dimen"
-                android:text="@string/edit_dialog_country"/>
+                android:text="@string/edit_dialog_country"
+                android:textSize="@dimen/edit_dialog_text_size"/>
             <EditText
                 android:id="@+id/input_country"
                 android:layout_width="match_parent"
@@ -133,7 +140,8 @@
                 android:layout_below="@+id/input_country"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="@dimen/edit_dialog_vertical_dimen"
-                android:text="@string/edit_dialog_city"/>
+                android:text="@string/edit_dialog_city"
+                android:textSize="@dimen/edit_dialog_text_size"/>
             <EditText
                 android:id="@+id/input_city"
                 android:layout_width="match_parent"
