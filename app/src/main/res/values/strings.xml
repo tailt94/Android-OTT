@@ -2,6 +2,7 @@
     <string name="app_name">OTT</string>
     <string name="register_tittle">Register Account</string>
     <string name="home_title">VNC OTT</string>
+    <string name="add_device_title">Add device</string>
     <string name="ok">OK</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
@@ -39,19 +40,15 @@
     <string name="register_city">City</string>
     <string name="register_input_city">Your City</string>
 
-    <string name="home_vnc_account">VNC ACCOUNT</string>
-    <string name="home_username">Username</string>
-    <string name="home_full_name">Full name</string>
-    <string name="home_gender">Gender</string>
-    <string name="home_birthday">Birthday</string>
-    <string name="home_change_password">Change Password</string>
-    <string name="home_sip_account">SIP ACCOUNT</string>
-    <string name="home_sip_display_name">Sip Display Name</string>
-    <string name="home_sip_username">Sip Username</string>
-    <string name="home_sip_password">Sip Password</string>
-    <string name="home_sip_domain">Sip Domain</string>
-    <string name="home_sip_status">Sip Status</string>
-    <string name="home_logout">Log out</string>
+    <string name="devices_notification">There is no connected device</string>
+
+    <string name="settings_vnc_account">VNC ACCOUNT</string>
+    <string name="settings_username">Username</string>
+    <string name="settings_full_name">Full name</string>
+    <string name="settings_gender">Gender</string>
+    <string name="settings_birthday">Birthday</string>
+    <string name="settings_change_password">Change Password</string>
+    <string name="settings_logout">Log out</string>
 
     <string name="edit_dialog_title">Edit VNC Account</string>
     <string name="edit_dialog_first_name">First Name</string>
@@ -77,6 +74,6 @@
     <string name="forgot_password_dialog_title">Forgot password</string>
     <string name="forgot_password_dialog_content">Please enter your email address and we will send you a new password</string>
     <string name="forgot_password_dialog_send">SEND</string>
-    
+
     <string name="logout_dialog_warning">Are you sure you want to log out?</string>
 </resources>
