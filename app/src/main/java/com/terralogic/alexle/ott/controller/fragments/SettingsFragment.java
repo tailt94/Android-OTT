@@ -221,6 +221,9 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
             Toast.makeText(getActivity(), HttpHandler.getMessage(response), Toast.LENGTH_SHORT).show();
+            if (HttpHandler.isSuccessful(response)) {
+                new LogoutTask().execute(user);
+            }
         }
     }
 

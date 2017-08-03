@@ -155,13 +155,7 @@ public class LoginActivity extends PostActivity implements ForgotPasswordDialogF
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
             if (HttpHandler.isSuccessful(response)) {
-                try {
-                    JSONObject json = new JSONObject(response);
-                    String newPassword = json.optJSONObject("data").optString("newPassword");
-                    Toast.makeText(LoginActivity.this, newPassword, Toast.LENGTH_SHORT).show();
-                } catch (JSONException ex) {
-                    Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
-                }
+                Toast.makeText(LoginActivity.this, "Your new password was sent to your email", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(LoginActivity.this, HttpHandler.getMessage(response), Toast.LENGTH_SHORT).show();
             }

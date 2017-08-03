@@ -1,6 +1,8 @@
 package com.terralogic.alexle.ott.controller.activities;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +16,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class PostActivity extends AppCompatActivity {
     protected HashMap<String, String> postParams = new HashMap<>();
@@ -33,8 +37,26 @@ public abstract class PostActivity extends AppCompatActivity {
     protected abstract void onPostDone();
 
     protected class PostRequestTask extends AsyncTask<HashMap<String, String>, Void, String> {
+        private ProgressDialog dialog = new ProgressDialog(PostActivity.this);
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            dialog.setTitle("Loading...");
+            dialog.setMessage("Please wait for a moment");
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+
         @Override
         protected String doInBackground(HashMap<String, String>... paramsMap) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+
             HttpHandler httpHandler = new HttpHandler(requestUrl);
             httpHandler.addHeader("Content-Type", "application/x-www-form-urlencoded");
             for (Map.Entry<String, String> entry : paramsMap[0].entrySet()) {
@@ -45,6 +67,7 @@ public abstract class PostActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String response) {
+            dialog.dismiss();
             if (HttpHandler.isSuccessful(response)) {
                 try {
                     JSONObject json = new JSONObject(response);
