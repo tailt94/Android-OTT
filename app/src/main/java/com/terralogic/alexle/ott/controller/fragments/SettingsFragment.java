@@ -21,6 +21,7 @@ import com.terralogic.alexle.ott.controller.dialogs.LogoutDialogFragment;
 import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.User;
 import com.terralogic.alexle.ott.service.HttpHandler;
+import com.terralogic.alexle.ott.service.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -182,10 +183,9 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     }
 
     private class LogoutTask extends AsyncTask<User, Void, String> {
-        private String requestUrl = "http://10.20.19.73/api";
         @Override
         protected String doInBackground(User... users) {
-            HttpHandler httpHandler = new HttpHandler(requestUrl);
+            HttpHandler httpHandler = new HttpHandler(Service.URL_API);
             httpHandler.addHeader("Content-Type", "application/x-www-form-urlencoded");
             httpHandler.addHeader("Authorization", "Bearer " + users[0].getToken());
             httpHandler.addParam("method", "logout");
@@ -205,10 +205,9 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     }
 
     private class ChangePasswordTask extends AsyncTask<HashMap<String, String>, Void, String> {
-        private String requestUrl = "http://10.20.19.73/api";
         @Override
         protected String doInBackground(HashMap<String, String>... params) {
-            HttpHandler httpHandler = new HttpHandler(requestUrl);
+            HttpHandler httpHandler = new HttpHandler(Service.URL_API);
             httpHandler.addHeader("Content-Type", "application/x-www-form-urlencoded");
             httpHandler.addHeader("Authorization", "Bearer " + user.getToken());
             for (Map.Entry<String, String> entry : params[0].entrySet()) {
@@ -228,13 +227,12 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     }
 
     private class PostNewUserInfoTask extends AsyncTask<User, Void, String> {
-        private String requestUrl = "http://10.20.19.73/api";
         private User requestUser;
 
         @Override
         protected String doInBackground(User... users) {
             requestUser = users[0];
-            HttpHandler httpHandler = new HttpHandler(requestUrl);
+            HttpHandler httpHandler = new HttpHandler(Service.URL_API);
             httpHandler.addHeader("Content-Type", "application/x-www-form-urlencoded");
             httpHandler.addHeader("Authorization", "Bearer " + requestUser.getToken());
             for (Map.Entry<String, String> entry : postParams.entrySet()) {

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.terralogic.alexle.ott.model.User;
 import com.terralogic.alexle.ott.service.HttpHandler;
+import com.terralogic.alexle.ott.service.Service;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +24,6 @@ public abstract class PostActivity extends AppCompatActivity {
     protected HashMap<String, String> postParams = new HashMap<>();
     protected User user;
     protected String messageError = "";
-    protected String requestUrl = "http://10.20.19.73/user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public abstract class PostActivity extends AppCompatActivity {
                 ex.printStackTrace();
             }
 
-            HttpHandler httpHandler = new HttpHandler(requestUrl);
+            HttpHandler httpHandler = new HttpHandler(Service.URL_USER);
             httpHandler.addHeader("Content-Type", "application/x-www-form-urlencoded");
             for (Map.Entry<String, String> entry : paramsMap[0].entrySet()) {
                 httpHandler.addParam(entry.getKey(), entry.getValue());

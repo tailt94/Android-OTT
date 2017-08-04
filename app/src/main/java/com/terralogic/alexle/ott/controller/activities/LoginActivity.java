@@ -19,6 +19,7 @@ import com.terralogic.alexle.ott.controller.dialogs.ForgotPasswordDialogFragment
 import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.User;
 import com.terralogic.alexle.ott.service.HttpHandler;
+import com.terralogic.alexle.ott.service.Service;
 import com.terralogic.alexle.ott.utils.Utils;
 
 import org.json.JSONException;
@@ -141,10 +142,9 @@ public class LoginActivity extends PostActivity implements ForgotPasswordDialogF
     }
 
     private class ForgotPasswordTask extends AsyncTask<String, Void, String> {
-        private String requestUrl = "http://10.20.19.73/user";
         @Override
         protected String doInBackground(String... emails) {
-            HttpHandler service = new HttpHandler(requestUrl);
+            HttpHandler service = new HttpHandler(Service.URL_USER);
             service.addHeader("Content-Type", "application/x-www-form-urlencoded");
             service.addParam("method", "forgotpassword");
             service.addParam("email", emails[0]);
