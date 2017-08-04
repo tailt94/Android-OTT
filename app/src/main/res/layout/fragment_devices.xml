@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/devices_notification"
+        android:text="@string/devices_fragment_notification"
         android:textSize="18sp"/>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

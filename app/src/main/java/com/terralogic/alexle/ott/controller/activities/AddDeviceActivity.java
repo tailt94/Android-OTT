@@ -1,5 +1,7 @@
 package com.terralogic.alexle.ott.controller.activities;
 
+import android.content.Intent;
+import android.provider.Settings;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -54,7 +56,8 @@ public class AddDeviceActivity extends AppCompatActivity {
         btnSwitchWifi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                startActivity(intent);
             }
         });
 

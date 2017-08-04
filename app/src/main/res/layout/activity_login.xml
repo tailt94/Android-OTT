@@ -24,7 +24,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
-            android:text="@string/login_header_title"
+            android:text="@string/login_activity_header_title"
             android:textColor="@color/login_title_color"
             android:textSize="25sp"/>
 
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:hint="@string/login_input_email" />
+                android:hint="@string/login_activity_input_email" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -73,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="@string/login_input_password" />
+                android:hint="@string/login_activity_input_password" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -85,7 +85,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="10dp"
             android:padding="10dp"
-            android:text="@string/login_forgot_password"
+            android:text="@string/login_activity_forgot_password"
             android:textColor="@color/login_button_forgot_password_color"/>
 
         <LinearLayout
@@ -98,7 +98,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/login_button_login"
+                android:text="@string/login_activity_button_login"
                 android:textColor="@color/login_button_text_color"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -113,7 +113,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/login_button_register"
+                android:text="@string/login_activity_button_register"
                 android:textColor="@color/login_button_text_color"
                 android:textSize="15sp"/>
         </LinearLayout>
