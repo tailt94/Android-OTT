@@ -10,8 +10,12 @@ import java.io.Serializable;
 
 public class Device implements Serializable {
     private String type;
+    private String topic;
     private String tokenUser;
+    private String token;
+    private int status;
     private String port;
+    private String name;
     private String chipID;
 
     public Device() {
@@ -20,8 +24,12 @@ public class Device implements Serializable {
 
     public Device(JSONObject json) {
         type = json.optString("type");
+        topic = json.optString("topic");
         tokenUser = json.optString("tokenuser");
+        token = json.optString("token");
+        status = json.optInt("status");
         port = json.optString("port");
+        name = json.optString("name");
         chipID = json.optString("chipID");
     }
 
@@ -55,5 +63,37 @@ public class Device implements Serializable {
 
     public void setChipID(String chipID) {
         this.chipID = chipID;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
