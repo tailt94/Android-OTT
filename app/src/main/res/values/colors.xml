@@ -12,9 +12,11 @@
     <color name="login_button_forgot_password_color">#5AB0D7</color>
     <color name="login_button_text_color">#F5F5F6</color>
 
-    <color name="home_tab_hightlight">#FFFF8C</color>
+    <color name="home_tab_highlight_color">#FFFF8C</color>
     <color name="home_tab_text_color">#B3FFFFFF</color>
     <color name="home_title_color">#8B572A</color>
+
+    <color name="add_device_switch_wifi_text_color">#5a9fd7</color>
 
     <color name="divider_color">#a2232323</color>
 </resources>

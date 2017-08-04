@@ -39,6 +39,11 @@
     <string name="register_input_country">Your country</string>
     <string name="register_city">City</string>
     <string name="register_input_city">Your City</string>
+    
+    <string name="add_device_wifi_name">Wi-Fi name</string>
+    <string name="add_device_wifi_password">Wi-Fi password</string>
+    <string name="add_device_switch_wifi">Switch Wi-Fi Network</string>
+    <string name="add_device_submit">Submit</string>
 
     <string name="devices_notification">No available devices</string>
 
