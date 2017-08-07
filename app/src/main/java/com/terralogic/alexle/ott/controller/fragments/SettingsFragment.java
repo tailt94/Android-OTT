@@ -190,7 +190,7 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
             httpHandler.addHeader("Authorization", "Bearer " + users[0].getToken());
             httpHandler.addParam("method", "logout");
             httpHandler.addParam("email", users[0].getEmail());
-            return httpHandler.makeServiceCall();
+            return httpHandler.post();
         }
 
         @Override
@@ -213,7 +213,7 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
             for (Map.Entry<String, String> entry : params[0].entrySet()) {
                 httpHandler.addParam(entry.getKey(), entry.getValue());
             }
-            return httpHandler.makeServiceCall();
+            return httpHandler.post();
         }
 
         @Override
@@ -238,7 +238,7 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
             for (Map.Entry<String, String> entry : postParams.entrySet()) {
                 httpHandler.addParam(entry.getKey(), entry.getValue());
             }
-            return httpHandler.makeServiceCall();
+            return httpHandler.post();
         }
 
         @Override

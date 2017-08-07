@@ -2,7 +2,6 @@ package com.terralogic.alexle.ott.controller.activities;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,8 +16,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public abstract class PostActivity extends AppCompatActivity {
     protected HashMap<String, String> postParams = new HashMap<>();
@@ -62,7 +59,7 @@ public abstract class PostActivity extends AppCompatActivity {
             for (Map.Entry<String, String> entry : paramsMap[0].entrySet()) {
                 httpHandler.addParam(entry.getKey(), entry.getValue());
             }
-            return httpHandler.makeServiceCall();
+            return httpHandler.post();
         }
 
         @Override

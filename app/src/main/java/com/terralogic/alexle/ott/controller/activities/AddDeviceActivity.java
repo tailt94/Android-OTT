@@ -1,31 +1,34 @@
 package com.terralogic.alexle.ott.controller.activities;
 
-import android.content.Intent;
-import android.provider.Settings;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
+import com.terralogic.alexle.ott.controller.fragments.ConfigDeviceFragment;
+import com.terralogic.alexle.ott.controller.fragments.ListDeviceFragment;
+import com.terralogic.alexle.ott.model.User;
+import com.terralogic.alexle.ott.service.HttpHandler;
+import com.terralogic.alexle.ott.service.Service;
 
-public class AddDeviceActivity extends AppCompatActivity {
-    private EditText inputWifiName;
-    private EditText inputWifiPassword;
-    private TextView btnSwitchWifi;
-    private ViewGroup btnSubmit;
+public class AddDeviceActivity extends AppCompatActivity implements ConfigDeviceFragment.OnWifiInfoSubmitListener {
+    private static final String ARG_USER = "user";
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_device);
+        getUserInfo();
         setupActionBar();
-        bindViews();
-        setupListeners();
+        addConfigDeviceFragment();
     }
 
     @Override
@@ -38,6 +41,15 @@ public class AddDeviceActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onWifiInfoSubmit(String wifiName, String wifiPassword) {
+        new ConfigDeviceTask().execute(wifiName, wifiPassword, user.getTokenUser());
+    }
+
+    private void getUserInfo() {
+        user = (User) getIntent().getSerializableExtra(ARG_USER);
+    }
+
     private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -45,27 +57,52 @@ public class AddDeviceActivity extends AppCompatActivity {
         }
     }
 
-    private void bindViews() {
-        inputWifiName = (EditText) findViewById(R.id.input_wifi_name);
-        inputWifiPassword = (EditText) findViewById(R.id.input_wifi_password);
-        btnSwitchWifi = (TextView) findViewById(R.id.switch_wifi);
-        btnSubmit = (ViewGroup) findViewById(R.id.btn_submit);
+    private void addConfigDeviceFragment() {
+        ConfigDeviceFragment fragment = new ConfigDeviceFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.fragment_config_device, fragment);
+        transaction.commit();
     }
 
-    private void setupListeners() {
-        btnSwitchWifi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Settings.ACTION_WIFI_SETTINGS);
-                startActivity(intent);
-            }
-        });
+    private class ConfigDeviceTask extends AsyncTask<String, Void, String> {
+        ProgressDialog dialog = new ProgressDialog(AddDeviceActivity.this);
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.setTitle("Loading...");
+            dialog.setMessage("Please wait for a moment");
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.show();
+        }
 
+        @Override
+        protected String doInBackground(String... params) {
+            HttpHandler httpHandler = new HttpHandler(Service.URL_ESP);
+            httpHandler.addParam("wifi", params[0]);
+            httpHandler.addParam("pass", params[1]);
+            httpHandler.addParam("userid", params[2]);
+            String response = httpHandler.get();
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            dialog.dismiss();
+            if (HttpHandler.isSuccessful(response)) {
+                ListDeviceFragment fragment = new ListDeviceFragment();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.fragment_config_device, fragment);
+                transaction.addToBackStack(null);
+                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                transaction.commit();
+            } else {
+                Toast.makeText(AddDeviceActivity.this, HttpHandler.getMessage(response), Toast.LENGTH_SHORT).show();
             }
-        });
+        }
     }
 }

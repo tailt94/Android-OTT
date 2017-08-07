@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -21,9 +20,6 @@ import com.terralogic.alexle.ott.model.User;
 import com.terralogic.alexle.ott.service.HttpHandler;
 import com.terralogic.alexle.ott.service.Service;
 import com.terralogic.alexle.ott.utils.Utils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class LoginActivity extends PostActivity implements ForgotPasswordDialogFragment.ForgotPasswordDialogListener {
     private ViewGroup rootView;
@@ -148,7 +144,7 @@ public class LoginActivity extends PostActivity implements ForgotPasswordDialogF
             service.addHeader("Content-Type", "application/x-www-form-urlencoded");
             service.addParam("method", "forgotpassword");
             service.addParam("email", emails[0]);
-            return service.makeServiceCall();
+            return service.post();
         }
 
         @Override

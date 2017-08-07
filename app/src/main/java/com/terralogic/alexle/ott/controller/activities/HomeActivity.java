@@ -70,7 +70,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new DevicesFragment(), "DEVICES");
+        adapter.addFragment(DevicesFragment.newInstance(user), "DEVICES");
         adapter.addFragment(new CallLogsFragment(), "CALLLOGS");
         adapter.addFragment(SettingsFragment.newInstance(user), "SETTINGS");
         viewPager.setAdapter(adapter);

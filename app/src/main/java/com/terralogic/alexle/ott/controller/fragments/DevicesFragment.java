@@ -12,16 +12,37 @@ import android.view.ViewGroup;
 
 import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.controller.activities.AddDeviceActivity;
+import com.terralogic.alexle.ott.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DevicesFragment extends Fragment {
+    private static final String ARG_USER = "user";
+
     private FloatingActionButton fab;
+
+    private User user;
+
     public DevicesFragment() {
         // Required empty public constructor
     }
 
+    public static DevicesFragment newInstance(User user) {
+        DevicesFragment fragment = new DevicesFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_USER, user);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            user = (User) getArguments().getSerializable(ARG_USER);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +67,7 @@ public class DevicesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AddDeviceActivity.class);
+                intent.putExtra(ARG_USER, user);
                 startActivity(intent);
             }
         });
