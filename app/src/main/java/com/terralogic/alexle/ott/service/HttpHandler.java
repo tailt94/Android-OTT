@@ -160,7 +160,8 @@ public class HttpHandler {
         if (message.equals("Login successful")
                 || message.equals("Successful")
                 || message.equals("Logout successful")
-                || message.equals("Update successful !!!")) {
+                || message.equals("Update successful !!!")
+                || message.equals("Add device successfully !!!")) {
             return true;
         }
         return false;
