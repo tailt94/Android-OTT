@@ -3,31 +3,33 @@ package com.terralogic.alexle.ott.controller.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
-import com.terralogic.alexle.ott.controller.activities.AddDeviceActivity;
-import com.terralogic.alexle.ott.service.HttpHandler;
-import com.terralogic.alexle.ott.service.Service;
 import com.terralogic.alexle.ott.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ConfigDeviceFragment extends Fragment {
-    private EditText inputWifiName;
+    private Spinner inputWifiName;
     private EditText inputWifiPassword;
     private TextView btnSwitchWifi;
     private ViewGroup btnSubmit;
@@ -60,6 +62,7 @@ public class ConfigDeviceFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         bindViews(view);
         setupListeners();
+        prepareWifiNameAdapter();
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -72,7 +75,7 @@ public class ConfigDeviceFragment extends Fragment {
     private void bindViews(View view) {
         inputWifiName = view.findViewById(R.id.input_wifi_name);
         inputWifiPassword = view.findViewById(R.id.input_wifi_password);
-        btnSwitchWifi = view.findViewById(R.id.switch_wifi);
+        btnSwitchWifi = view.findViewById(R.id.btn_switch_wifi);
         btnSubmit = view.findViewById(R.id.btn_submit);
     }
 
@@ -88,13 +91,27 @@ public class ConfigDeviceFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Utils.isRequiredFieldsFilled(inputWifiName, inputWifiPassword)) {
-                    listener.onWifiInfoSubmit(inputWifiName.getText().toString(), inputWifiPassword.getText().toString());
+                if (inputWifiName.getSelectedItem() != null
+                        && !TextUtils.isEmpty(inputWifiPassword.getText())) {
+                    listener.onWifiInfoSubmit(inputWifiName.getSelectedItem().toString(), inputWifiPassword.getText().toString());
                 } else {
                     Toast.makeText(getActivity(), "Wi-Fi name and password must be filled", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void prepareWifiNameAdapter() {
+        WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiManager.startScan();
+        List<ScanResult> results = wifiManager.getScanResults();
+        List<String> ssids = new ArrayList<>();
+        for (ScanResult result : results) {
+            ssids.add(result.SSID);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, ssids);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        inputWifiName.setAdapter(adapter);
     }
 
     public interface OnWifiInfoSubmitListener {

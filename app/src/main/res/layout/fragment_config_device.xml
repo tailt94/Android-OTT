@@ -15,7 +15,7 @@
             android:src="@drawable/add_device_image"
             android:adjustViewBounds="true"/>
 
-        <EditText
+        <Spinner
             android:id="@+id/input_wifi_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,35 +23,34 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:hint="@string/add_device_activity_wifi_name"
-            android:inputType="text"/>
+            android:spinnerMode="dialog"
+            style="@style/Widget.AppCompat.Spinner.Underlined"/>
 
         <EditText
             android:id="@+id/input_wifi_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/input_wifi_name"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:hint="@string/add_device_activity_wifi_password"
+            android:hint="@string/config_device_fragment_wifi_password"
             android:inputType="textPassword"/>
 
         <TextView
-            android:id="@+id/switch_wifi"
+            android:id="@+id/btn_switch_wifi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/input_wifi_password"
-            android:padding="10dp"
             android:layout_marginTop="10dp"
+            android:padding="10dp"
             android:textSize="18sp"
             android:textColor="@color/add_device_switch_wifi_text_color"
             android:layout_centerHorizontal="true"
-            android:text="@string/add_device_activity_switch_wifi"/>
+            android:text="@string/config_device_fragment_switch_wifi"/>
 
         <LinearLayout
             android:id="@+id/btn_submit"
-            android:layout_below="@+id/switch_wifi"
+            android:layout_below="@+id/btn_switch_wifi"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="30dp"
             android:layout_marginStart="80dp"
@@ -61,7 +60,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/add_device_activity_submit"
+                android:text="@string/config_device_fragment_submit"
                 android:textColor="@color/login_button_text_color"
                 android:textSize="15sp" />
         </LinearLayout>

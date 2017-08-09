@@ -17,6 +17,7 @@ import com.terralogic.alexle.ott.controller.fragments.ListDeviceFragment;
 import com.terralogic.alexle.ott.model.User;
 import com.terralogic.alexle.ott.service.HttpHandler;
 import com.terralogic.alexle.ott.service.Service;
+import com.terralogic.alexle.ott.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +49,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
 
     @Override
     public void onWifiInfoSubmit(String wifiName, String wifiPassword) {
+        Utils.hideKeyboard(this);
         new ConfigDeviceTask().execute(wifiName, wifiPassword, user.getTokenUser());
     }
 
@@ -102,7 +104,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            return "{chipID:\"545454\"}";
+            return "{chipID:\"545754\"}";
         }
 
         @Override
@@ -173,6 +175,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
             dialog.dismiss();
 
             if (HttpHandler.isSuccessful(response)) {
+                //TODO save to db and back to home screen
                 Toast.makeText(AddDeviceActivity.this, HttpHandler.getMessage(response), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(AddDeviceActivity.this, HttpHandler.getMessage(response), Toast.LENGTH_SHORT).show();
