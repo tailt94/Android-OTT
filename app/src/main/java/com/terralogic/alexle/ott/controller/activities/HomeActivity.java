@@ -16,6 +16,7 @@ import com.terralogic.alexle.ott.controller.fragments.CallLogsFragment;
 import com.terralogic.alexle.ott.controller.fragments.DevicesFragment;
 import com.terralogic.alexle.ott.controller.fragments.SettingsFragment;
 import com.terralogic.alexle.ott.model.User;
+import com.terralogic.alexle.ott.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        user = (User) getIntent().getSerializableExtra(SplashActivity.EXTRA_USER);
+        user = (User) getIntent().getSerializableExtra(Utils.EXTRA_USER);
 
         bindViews();
         setupActionBar();

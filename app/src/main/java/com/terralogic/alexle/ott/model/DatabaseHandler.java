@@ -174,46 +174,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(USER_COLUMN_BIRTHDAY, user.getBirthday());
         values.put(USER_COLUMN_CITY, user.getCity());
         values.put(USER_COLUMN_COUNTRY, user.getCountry());
-        if (user.getDevices().size() != 0) {
-            for (Device device : user.getDevices()) {
-                addDevice(device);
-            }
-        }
 
         String whereClause = USER_COLUMN_TOKEN_USER + " = ?";
         String[] args = {user.getTokenUser()};
         return db.update(USER_TABLE, values, whereClause, args);
-    }
-
-    /**
-     * Get user by email
-     */
-    public User getUser(String email) {
-        User user = null;
-
-        SQLiteDatabase db = getReadableDatabase();
-        String selectQuery = "SELECT * FROM " + USER_TABLE
-                + "WHERE " + USER_COLUMN_EMAIL + " = ?";
-        String[] selectionArgs = {email};
-        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
-        if (cursor.moveToFirst()) {
-            user = new User();
-            user.setTokenUser(cursor.getString(cursor.getColumnIndex(USER_COLUMN_TOKEN_USER)));
-            user.setToken(cursor.getString(cursor.getColumnIndex(USER_COLUMN_TOKEN)));
-            user.setEmail(cursor.getString(cursor.getColumnIndex(USER_COLUMN_EMAIL)));
-            user.setPassword(cursor.getString(cursor.getColumnIndex(USER_COLUMN_PASSWORD)));
-            user.setPhoneNumber(cursor.getString(cursor.getColumnIndex(USER_COLUMN_PHONE)));
-            user.setName(new Name(cursor.getString(cursor.getColumnIndex(USER_COLUMN_FIRST_NAME)),
-                    cursor.getString(cursor.getColumnIndex(USER_COLUMN_LAST_NAME))));
-            user.setSex(cursor.getString(cursor.getColumnIndex(USER_COLUMN_SEX)));
-            user.setBirthday(cursor.getString(cursor.getColumnIndex(USER_COLUMN_BIRTHDAY)));
-            user.setCity(cursor.getString(cursor.getColumnIndex(USER_COLUMN_CITY)));
-            user.setCountry(cursor.getString(cursor.getColumnIndex(USER_COLUMN_COUNTRY)));
-            user.setDevices(getListDevice(cursor.getString(cursor.getColumnIndex(USER_COLUMN_TOKEN_USER))));
-
-            cursor.close();
-        }
-        return user;
     }
 
     public List<Device> getListDevice(String tokenUser) {

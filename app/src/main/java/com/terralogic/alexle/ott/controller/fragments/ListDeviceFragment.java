@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.controller.adapters.ListDeviceAdapter;
 import com.terralogic.alexle.ott.model.Device;
+import com.terralogic.alexle.ott.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,6 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class ListDeviceFragment extends Fragment {
-    private static final String ARG_CHIPID = "chipID";
-
     private ViewGroup btnAddDevice;
     private RecyclerView recyclerView;
     private ListDeviceAdapter adapter;
@@ -39,7 +38,7 @@ public class ListDeviceFragment extends Fragment {
     public static ListDeviceFragment newInstance(String chipID) {
         ListDeviceFragment fragment = new ListDeviceFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_CHIPID, chipID);
+        args.putString(Utils.ARG_CHIPID, chipID);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,7 +58,7 @@ public class ListDeviceFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            chipID = getArguments().getString(ARG_CHIPID);
+            chipID = getArguments().getString(Utils.ARG_CHIPID);
         }
     }
 

@@ -170,7 +170,7 @@ public class LoginActivity extends PostActivity implements ForgotPasswordDialogF
         protected void onPostExecute(User user) {
             super.onPostExecute(user);
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            intent.putExtra(SplashActivity.EXTRA_USER, user);
+            intent.putExtra(Utils.EXTRA_USER, user);
             startActivity(intent);
             finish();
         }

@@ -13,6 +13,11 @@ import android.widget.EditText;
  */
 
 public final class Utils {
+    public static final String EXTRA_USER = "EXTRA_USER";
+    public static final String ARG_USER = "ARG_USER";
+    public static final String ARG_EMAIL = "ARG_EMAIL";
+    public static final String ARG_CHIPID = "ARG_CHIPID";
+
     public static boolean isValidEmail(CharSequence email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }

@@ -1,6 +1,7 @@
 package com.terralogic.alexle.ott.controller.fragments;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,17 +10,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.controller.activities.AddDeviceActivity;
 import com.terralogic.alexle.ott.model.User;
+import com.terralogic.alexle.ott.utils.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DevicesFragment extends Fragment {
-    private static final String ARG_USER = "user";
-
+    private static final int ADD_DEVICE_REQUEST = 1;
     private FloatingActionButton fab;
 
     private User user;
@@ -31,7 +33,7 @@ public class DevicesFragment extends Fragment {
     public static DevicesFragment newInstance(User user) {
         DevicesFragment fragment = new DevicesFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_USER, user);
+        args.putSerializable(Utils.ARG_USER, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -40,7 +42,7 @@ public class DevicesFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            user = (User) getArguments().getSerializable(ARG_USER);
+            user = (User) getArguments().getSerializable(Utils.ARG_USER);
         }
     }
 
@@ -58,6 +60,17 @@ public class DevicesFragment extends Fragment {
         setupListeners();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_DEVICE_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                user = (User) data.getSerializableExtra(Utils.EXTRA_USER);
+                Toast.makeText(getActivity(), "COMPLETE", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     private void bindViews(View view) {
         fab = view.findViewById(R.id.fab);
     }
@@ -67,8 +80,8 @@ public class DevicesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AddDeviceActivity.class);
-                intent.putExtra(ARG_USER, user);
-                startActivity(intent);
+                intent.putExtra(Utils.EXTRA_USER, user);
+                startActivityForResult(intent, ADD_DEVICE_REQUEST);
             }
         });
     }
