@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -76,7 +75,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
         transaction.commit();
     }
 
-    private void returnDataToHomeScreen() {
+    private void returnDataToDevicesFragment() {
         Intent data = new Intent();
         data.putExtra(Utils.EXTRA_USER, user);
         setResult(RESULT_OK, data);
@@ -110,7 +109,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            return "{chipID:\"413782\"}";
+            return "{chipID:\"423782\"}";
         }
 
         @Override
@@ -172,7 +171,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
             httpHandler.addParam("port", "2");
             httpHandler.addParam("tokenUser", user.getTokenUser());
             httpHandler.addParam("chipID", chipID[0]);
-            httpHandler.addParam("name", "bulby");
+            httpHandler.addParam("name", "Bulb");
             return httpHandler.post();
         }
 
@@ -189,7 +188,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
                     user.getDevices().add(device);
                     DatabaseHandler db = DatabaseHandler.getInstance(AddDeviceActivity.this);
                     db.addDevice(device);
-                    returnDataToHomeScreen();
+                    returnDataToDevicesFragment();
                 } catch (JSONException e) {
                     Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
                 }

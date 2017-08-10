@@ -66,7 +66,6 @@ public class DevicesFragment extends Fragment {
         if (requestCode == ADD_DEVICE_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 user = (User) data.getSerializableExtra(Utils.EXTRA_USER);
-                Toast.makeText(getActivity(), "COMPLETE", Toast.LENGTH_SHORT).show();
             }
         }
     }
