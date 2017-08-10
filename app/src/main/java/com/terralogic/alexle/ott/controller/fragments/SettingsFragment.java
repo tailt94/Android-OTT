@@ -21,14 +21,14 @@ import com.terralogic.alexle.ott.controller.dialogs.LogoutDialogFragment;
 import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.User;
 import com.terralogic.alexle.ott.service.HttpHandler;
+import com.terralogic.alexle.ott.service.Service;
+import com.terralogic.alexle.ott.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SettingsFragment extends Fragment implements EditAccountDialogFragment.EditDialogListener,
         ChangePasswordDialogFragment.ChangePasswordDialogListener, LogoutDialogFragment.LogoutDialogListener {
-    private static final String ARG_USER = "user";
-
     private TextView tvUsername;
     private TextView tvFullname;
     private TextView tvGender;
@@ -46,7 +46,7 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     public static SettingsFragment newInstance(User user) {
         SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_USER, user);
+        args.putSerializable(Utils.ARG_USER, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,7 +60,7 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            user = (User) getArguments().getSerializable(ARG_USER);
+            user = (User) getArguments().getSerializable(Utils.ARG_USER);
         }
     }
 
@@ -85,7 +85,7 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
 
     @Override
     public void onDialogAccountUpdate(User user) {
-        addEditAccountParams();
+        addEditAccountParams(user);
         new PostNewUserInfoTask().execute(user);
     }
 
@@ -106,16 +106,16 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     }
 
     private void bindViews(View view) {
-        tvUsername = (TextView) view.findViewById(R.id.text_username);
-        tvFullname = (TextView) view.findViewById(R.id.text_full_name);
-        tvGender = (TextView) view.findViewById(R.id.text_gender);
-        tvBirthday = (TextView) view.findViewById(R.id.text_birthday);
-        btnEditAccount = (ImageView) view.findViewById(R.id.btn_edit_account);
-        btnChangePassword = (ImageView) view.findViewById(R.id.btn_change_password);
-        btnLogout = (ViewGroup) view.findViewById(R.id.btn_logout);
+        tvUsername = view.findViewById(R.id.text_username);
+        tvFullname = view.findViewById(R.id.text_full_name);
+        tvGender = view.findViewById(R.id.text_gender);
+        tvBirthday = view.findViewById(R.id.text_birthday);
+        btnEditAccount = view.findViewById(R.id.btn_edit_account);
+        btnChangePassword = view.findViewById(R.id.btn_change_password);
+        btnLogout = view.findViewById(R.id.btn_logout);
     }
 
-    private void addEditAccountParams() {
+    private void addEditAccountParams(User user) {
         postParams.clear();
         postParams.put("method", "editUser");
         postParams.put("firstname", user.getName().getFirstName());
@@ -146,51 +146,38 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
         btnEditAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showEditAccountDialog();
+                EditAccountDialogFragment dialog = EditAccountDialogFragment.newInstance(user);
+                dialog.setEditDialogListener(SettingsFragment.this);
+                dialog.show(getFragmentManager(), "EditAccountDialogFragment");
             }
         });
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showLogoutDialog();
+                LogoutDialogFragment dialog = new LogoutDialogFragment();
+                dialog.setLogoutDialogListener(SettingsFragment.this);
+                dialog.show(getFragmentManager(), "LogoutDialogFragment");
             }
         });
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showChangePasswordDialog();
+                ChangePasswordDialogFragment dialog = new ChangePasswordDialogFragment();
+                dialog.setChangePasswordDialogListener(SettingsFragment.this);
+                dialog.show(getFragmentManager(), "ChangePasswordDialogFragment");
             }
         });
     }
 
-    private void showEditAccountDialog() {
-        EditAccountDialogFragment dialog = EditAccountDialogFragment.newInstance(user);
-        dialog.setEditDialogListener(this);
-        dialog.show(getFragmentManager(), "EditAccountDialogFragment");
-    }
-
-    private void showChangePasswordDialog() {
-        ChangePasswordDialogFragment dialog = new ChangePasswordDialogFragment();
-        dialog.setChangePasswordDialogListener(this);
-        dialog.show(getFragmentManager(), "ChangePasswordDialogFragment");
-    }
-
-    private void showLogoutDialog() {
-        LogoutDialogFragment dialog = new LogoutDialogFragment();
-        dialog.setLogoutDialogListener(this);
-        dialog.show(getFragmentManager(), "LogoutDialogFragment");
-    }
-
     private class LogoutTask extends AsyncTask<User, Void, String> {
-        private String requestUrl = "http://10.20.19.73/api";
         @Override
         protected String doInBackground(User... users) {
-            HttpHandler httpHandler = new HttpHandler(requestUrl);
+            HttpHandler httpHandler = new HttpHandler(Service.URL_API);
             httpHandler.addHeader("Content-Type", "application/x-www-form-urlencoded");
             httpHandler.addHeader("Authorization", "Bearer " + users[0].getToken());
             httpHandler.addParam("method", "logout");
             httpHandler.addParam("email", users[0].getEmail());
-            return httpHandler.makeServiceCall();
+            return httpHandler.post();
         }
 
         @Override
@@ -205,16 +192,15 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     }
 
     private class ChangePasswordTask extends AsyncTask<HashMap<String, String>, Void, String> {
-        private String requestUrl = "http://10.20.19.73/api";
         @Override
         protected String doInBackground(HashMap<String, String>... params) {
-            HttpHandler httpHandler = new HttpHandler(requestUrl);
+            HttpHandler httpHandler = new HttpHandler(Service.URL_API);
             httpHandler.addHeader("Content-Type", "application/x-www-form-urlencoded");
             httpHandler.addHeader("Authorization", "Bearer " + user.getToken());
             for (Map.Entry<String, String> entry : params[0].entrySet()) {
                 httpHandler.addParam(entry.getKey(), entry.getValue());
             }
-            return httpHandler.makeServiceCall();
+            return httpHandler.post();
         }
 
         @Override
@@ -228,19 +214,18 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     }
 
     private class PostNewUserInfoTask extends AsyncTask<User, Void, String> {
-        private String requestUrl = "http://10.20.19.73/api";
         private User requestUser;
 
         @Override
         protected String doInBackground(User... users) {
             requestUser = users[0];
-            HttpHandler httpHandler = new HttpHandler(requestUrl);
+            HttpHandler httpHandler = new HttpHandler(Service.URL_API);
             httpHandler.addHeader("Content-Type", "application/x-www-form-urlencoded");
             httpHandler.addHeader("Authorization", "Bearer " + requestUser.getToken());
             for (Map.Entry<String, String> entry : postParams.entrySet()) {
                 httpHandler.addParam(entry.getKey(), entry.getValue());
             }
-            return httpHandler.makeServiceCall();
+            return httpHandler.post();
         }
 
         @Override

@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:text="@string/home_vnc_account"
+            android:text="@string/settings_fragment_vnc_account"
             style="@style/HomeTitleStyle"/>
         <ImageView
             android:id="@+id/btn_edit_account"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/vnc_account"
             android:layout_alignStart="@+id/vnc_account"
-            android:text="@string/home_username"
+            android:text="@string/settings_fragment_username"
             style="@style/HomeTextStyle"/>
         <TextView
             android:id="@+id/text_username"
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/username"
             android:layout_alignStart="@+id/vnc_account"
-            android:text="@string/home_full_name"
+            android:text="@string/settings_fragment_full_name"
             style="@style/HomeTextStyle"/>
         <TextView
             android:id="@+id/text_full_name"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/full_name"
             android:layout_alignStart="@+id/vnc_account"
-            android:text="@string/home_gender"
+            android:text="@string/settings_fragment_gender"
             style="@style/HomeTextStyle"/>
         <TextView
             android:id="@+id/text_gender"
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/gender"
             android:layout_alignStart="@+id/vnc_account"
-            android:text="@string/home_birthday"
+            android:text="@string/settings_fragment_birthday"
             style="@style/HomeTextStyle"/>
         <TextView
             android:id="@+id/text_birthday"
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/birthday"
             android:layout_alignStart="@+id/vnc_account"
-            android:text="@string/home_change_password"
+            android:text="@string/settings_fragment_change_password"
             style="@style/HomeTextStyle"/>
         <ImageView
             android:id="@+id/btn_change_password"
@@ -110,7 +110,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home_logout"
+                android:text="@string/settings_fragment_logout"
                 android:textColor="@color/login_button_text_color"
                 android:textSize="15sp"/>
         </LinearLayout>

@@ -1,57 +1,60 @@
 <resources>
-    <string name="app_name">OTT</string>
-    <string name="register_tittle">Register Account</string>
-    <string name="home_title">VNC OTT</string>
+    <string name="app_name">IoT</string>
+
     <string name="ok">OK</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
+    <string name="cancel">CANCEL</string>
 
-    <string name="request_success_01">Login successful</string>
-    <string name="request_success_02">Successful</string>
-    <string name="request_success_03">Logout successful</string>
-    <string name="request_success_04">Update successful !!!</string>
+    <string name="login_activity_header_title">Always Be Connected</string>
+    <string name="login_activity_input_email">Email</string>
+    <string name="login_activity_input_password">Password</string>
+    <string name="login_activity_forgot_password">Forgot Password ?</string>
+    <string name="login_activity_button_login">LOGIN</string>
+    <string name="login_activity_button_register">REGISTER</string>
 
-    <string name="login_header_title">Always Be Connected</string>
-    <string name="login_input_email">Email</string>
-    <string name="login_input_password">Password</string>
-    <string name="login_forgot_password">Forgot Password ?</string>
-    <string name="login_button_login">LOGIN</string>
-    <string name="login_button_register">REGISTER</string>
+    <string name="register_activity_tittle">Register Account</string>
+    <string name="register_activity_email">Email (*)</string>
+    <string name="register_activity_input_email">Your Email</string>
+    <string name="register_activity_password">Password (*)</string>
+    <string name="register_activity_input_password">Password</string>
+    <string name="register_activity_confirm_password">Confirm Password (*)</string>
+    <string name="register_activity_input_confirm_password">Confirm Password</string>
+    <string name="register_activity_first_name">First Name</string>
+    <string name="register_activity_input_first_name">First name</string>
+    <string name="register_activity_last_name">Last Name</string>
+    <string name="register_activity_input_last_name">Last name</string>
+    <string name="register_activity_sex">Sex</string>
+    <string name="register_activity_male">Male</string>
+    <string name="register_activity_female">Female</string>
+    <string name="register_activity_other">Other</string>
+    <string name="register_activity_birthday">Date Of Birth</string>
+    <string name="register_activity_input_birthday">Select day</string>
+    <string name="register_activity_country">Country</string>
+    <string name="register_activity_input_country">Your country</string>
+    <string name="register_activity_city">City</string>
+    <string name="register_activity_input_city">Your City</string>
 
-    <string name="register_email">Email (*)</string>
-    <string name="register_input_email">Your Email</string>
-    <string name="register_password">Password (*)</string>
-    <string name="register_input_password">Password</string>
-    <string name="register_confirm_password">Confirm Password (*)</string>
-    <string name="register_input_confirm_password">Confirm Password</string>
-    <string name="register_first_name">First Name</string>
-    <string name="register_input_first_name">First name</string>
-    <string name="register_last_name">Last Name</string>
-    <string name="register_input_last_name">Last name</string>
-    <string name="register_sex">Sex</string>
-    <string name="register_male">Male</string>
-    <string name="register_female">Female</string>
-    <string name="register_other">Other</string>
-    <string name="register_birthday">Date Of Birth</string>
-    <string name="register_input_birthday">Select day</string>
-    <string name="register_country">Country</string>
-    <string name="register_input_country">Your country</string>
-    <string name="register_city">City</string>
-    <string name="register_input_city">Your City</string>
+    <string name="home_activity_title">VNC OTT</string>
 
-    <string name="home_vnc_account">VNC ACCOUNT</string>
-    <string name="home_username">Username</string>
-    <string name="home_full_name">Full name</string>
-    <string name="home_gender">Gender</string>
-    <string name="home_birthday">Birthday</string>
-    <string name="home_change_password">Change Password</string>
-    <string name="home_sip_account">SIP ACCOUNT</string>
-    <string name="home_sip_display_name">Sip Display Name</string>
-    <string name="home_sip_username">Sip Username</string>
-    <string name="home_sip_password">Sip Password</string>
-    <string name="home_sip_domain">Sip Domain</string>
-    <string name="home_sip_status">Sip Status</string>
-    <string name="home_logout">Log out</string>
+    <string name="config_device_fragment_title">Add device</string>
+    <string name="config_device_fragment_wifi_name">Wi-Fi name</string>
+    <string name="config_device_fragment_wifi_password">Wi-Fi password</string>
+    <string name="config_device_fragment_choose_wifi_ssid">Choose a wifi SSID</string>
+    <string name="config_device_fragment_switch_wifi">Switch Wi-Fi Network</string>
+    <string name="config_device_fragment_submit">Submit</string>
+
+    <string name="list_device_fragment_add">Add</string>
+
+    <string name="devices_fragment_notification">No available devices</string>
+
+    <string name="settings_fragment_vnc_account">VNC ACCOUNT</string>
+    <string name="settings_fragment_username">Username</string>
+    <string name="settings_fragment_full_name">Full name</string>
+    <string name="settings_fragment_gender">Gender</string>
+    <string name="settings_fragment_birthday">Birthday</string>
+    <string name="settings_fragment_change_password">Change Password</string>
+    <string name="settings_fragment_logout">Log out</string>
 
     <string name="edit_dialog_title">Edit VNC Account</string>
     <string name="edit_dialog_first_name">First Name</string>
@@ -77,6 +80,6 @@
     <string name="forgot_password_dialog_title">Forgot password</string>
     <string name="forgot_password_dialog_content">Please enter your email address and we will send you a new password</string>
     <string name="forgot_password_dialog_send">SEND</string>
-    
+
     <string name="logout_dialog_warning">Are you sure you want to log out?</string>
 </resources>

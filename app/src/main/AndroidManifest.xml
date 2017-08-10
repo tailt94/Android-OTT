@@ -3,6 +3,8 @@
     package="com.terralogic.alexle.ott">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -26,13 +28,17 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".controller.activities.RegisterActivity"
-            android:label="@string/register_tittle"
+            android:label="@string/register_activity_tittle"
             android:theme="@style/AppThemeWithActionBar" />
         <activity
             android:name=".controller.activities.HomeActivity"
-            android:label="@string/home_title"
+            android:label="@string/home_activity_title"
             android:theme="@style/AppThemeWithActionBar"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".controller.activities.AddDeviceActivity"
+            android:label="@string/config_device_fragment_title"
+            android:theme="@style/AppThemeWithActionBar"/>
     </application>
 
 </manifest>

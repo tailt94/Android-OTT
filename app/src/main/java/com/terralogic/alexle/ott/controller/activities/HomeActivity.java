@@ -13,9 +13,10 @@ import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.controller.fragments.CallLogsFragment;
-import com.terralogic.alexle.ott.controller.fragments.DialFragment;
+import com.terralogic.alexle.ott.controller.fragments.DevicesFragment;
 import com.terralogic.alexle.ott.controller.fragments.SettingsFragment;
 import com.terralogic.alexle.ott.model.User;
+import com.terralogic.alexle.ott.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        user = (User) getIntent().getSerializableExtra(SplashActivity.EXTRA_USER);
+        user = (User) getIntent().getSerializableExtra(Utils.EXTRA_USER);
 
         bindViews();
         setupActionBar();
@@ -70,7 +71,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new DialFragment(), "DIAL");
+        adapter.addFragment(DevicesFragment.newInstance(user), "DEVICES");
         adapter.addFragment(new CallLogsFragment(), "CALLLOGS");
         adapter.addFragment(SettingsFragment.newInstance(user), "SETTINGS");
         viewPager.setAdapter(adapter);

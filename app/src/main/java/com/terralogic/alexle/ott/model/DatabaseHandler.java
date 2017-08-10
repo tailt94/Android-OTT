@@ -36,9 +36,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String USER_COLUMN_COUNTRY = "country";
 
     private static final String DEVICE_TABLE = "device";
-    private static final String DEVICE_COLUMN_TOKEN_USER = "tokenuser";
     private static final String DEVICE_COLUMN_TYPE = "type";
+    private static final String DEVICE_COLUMN_TOPIC = "topic";
+    private static final String DEVICE_COLUMN_TOKEN_USER = "tokenuser";
+    private static final String DEVICE_COLUMN_TOKEN = "token";
+    private static final String DEVICE_COLUMN_STATUS = "status";
     private static final String DEVICE_COLUMN_PORT = "port";
+    private static final String DEVICE_COLUMN_NAME = "name";
     private static final String DEVICE_COLUMN_CHIP_ID = "chipID";
 
     public static DatabaseHandler getInstance(Context context) {
@@ -68,9 +72,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + USER_COLUMN_COUNTRY + " TEXT" + ")";
 
         String CREATE_TABLE_DEVICE = "CREATE TABLE " + DEVICE_TABLE + "("
-                + DEVICE_COLUMN_TOKEN_USER + " TEXT,"
                 + DEVICE_COLUMN_TYPE + " TEXT,"
+                + DEVICE_COLUMN_TOPIC + " TEXT,"
+                + DEVICE_COLUMN_TOKEN_USER + " TEXT,"
+                + DEVICE_COLUMN_TOKEN + " TEXT,"
+                + DEVICE_COLUMN_STATUS + " INTEGER,"
                 + DEVICE_COLUMN_PORT + " TEXT,"
+                + DEVICE_COLUMN_NAME + " TEXT,"
                 + DEVICE_COLUMN_CHIP_ID + " TEXT,"
                 + "FOREIGN KEY(" + DEVICE_COLUMN_TOKEN_USER + ") REFERENCES " + USER_TABLE + "(" + USER_COLUMN_TOKEN_USER + ")"
                 + ")";
@@ -166,46 +174,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(USER_COLUMN_BIRTHDAY, user.getBirthday());
         values.put(USER_COLUMN_CITY, user.getCity());
         values.put(USER_COLUMN_COUNTRY, user.getCountry());
-        if (user.getDevices().size() != 0) {
-            for (Device device : user.getDevices()) {
-                addDevice(device);
-            }
-        }
 
         String whereClause = USER_COLUMN_TOKEN_USER + " = ?";
         String[] args = {user.getTokenUser()};
         return db.update(USER_TABLE, values, whereClause, args);
-    }
-
-    /**
-     * Get user by email
-     */
-    public User getUser(String email) {
-        User user = null;
-
-        SQLiteDatabase db = getReadableDatabase();
-        String selectQuery = "SELECT * FROM " + USER_TABLE
-                + "WHERE " + USER_COLUMN_EMAIL + " = ?";
-        String[] selectionArgs = {email};
-        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
-        if (cursor.moveToFirst()) {
-            user = new User();
-            user.setTokenUser(cursor.getString(cursor.getColumnIndex(USER_COLUMN_TOKEN_USER)));
-            user.setToken(cursor.getString(cursor.getColumnIndex(USER_COLUMN_TOKEN)));
-            user.setEmail(cursor.getString(cursor.getColumnIndex(USER_COLUMN_EMAIL)));
-            user.setPassword(cursor.getString(cursor.getColumnIndex(USER_COLUMN_PASSWORD)));
-            user.setPhoneNumber(cursor.getString(cursor.getColumnIndex(USER_COLUMN_PHONE)));
-            user.setName(new Name(cursor.getString(cursor.getColumnIndex(USER_COLUMN_FIRST_NAME)),
-                    cursor.getString(cursor.getColumnIndex(USER_COLUMN_LAST_NAME))));
-            user.setSex(cursor.getString(cursor.getColumnIndex(USER_COLUMN_SEX)));
-            user.setBirthday(cursor.getString(cursor.getColumnIndex(USER_COLUMN_BIRTHDAY)));
-            user.setCity(cursor.getString(cursor.getColumnIndex(USER_COLUMN_CITY)));
-            user.setCountry(cursor.getString(cursor.getColumnIndex(USER_COLUMN_COUNTRY)));
-            user.setDevices(getListDevice(cursor.getString(cursor.getColumnIndex(USER_COLUMN_TOKEN_USER))));
-
-            cursor.close();
-        }
-        return user;
     }
 
     public List<Device> getListDevice(String tokenUser) {
@@ -219,9 +191,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Device device = new Device();
-                device.setTokenUser(cursor.getString(cursor.getColumnIndex(DEVICE_COLUMN_TOKEN_USER)));
                 device.setType(cursor.getString(cursor.getColumnIndex(DEVICE_COLUMN_TYPE)));
+                device.setTopic(cursor.getString(cursor.getColumnIndex(DEVICE_COLUMN_TOPIC)));
+                device.setTokenUser(cursor.getString(cursor.getColumnIndex(DEVICE_COLUMN_TOKEN_USER)));
+                device.setToken(cursor.getString(cursor.getColumnIndex(DEVICE_COLUMN_TOKEN)));
+                device.setStatus(cursor.getInt(cursor.getColumnIndex(DEVICE_COLUMN_STATUS)));
                 device.setPort(cursor.getString(cursor.getColumnIndex(DEVICE_COLUMN_PORT)));
+                device.setName(cursor.getString(cursor.getColumnIndex(DEVICE_COLUMN_NAME)));
                 device.setChipID(cursor.getString(cursor.getColumnIndex(DEVICE_COLUMN_CHIP_ID)));
 
                 devices.add(device);
@@ -236,56 +212,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DEVICE_COLUMN_TOKEN_USER, device.getTokenUser());
         values.put(DEVICE_COLUMN_TYPE, device.getType());
+        values.put(DEVICE_COLUMN_TOPIC, device.getTopic());
+        values.put(DEVICE_COLUMN_TOKEN_USER, device.getTokenUser());
+        values.put(DEVICE_COLUMN_TOKEN, device.getToken());
+        values.put(DEVICE_COLUMN_STATUS, device.getStatus());
         values.put(DEVICE_COLUMN_PORT, device.getPort());
+        values.put(DEVICE_COLUMN_NAME, device.getName());
         values.put(DEVICE_COLUMN_CHIP_ID, device.getChipID());
 
         return db.insert(DEVICE_TABLE, null, values);
     }
-
-    public ArrayList<Cursor> getData(String Query){
-        //get writable database
-        SQLiteDatabase sqlDB = this.getWritableDatabase();
-        String[] columns = new String[] { "message" };
-        //an array list of cursor to save two cursors one has results from the query
-        //other cursor stores error message if any errors are triggered
-        ArrayList<Cursor> alc = new ArrayList<Cursor>(2);
-        MatrixCursor Cursor2= new MatrixCursor(columns);
-        alc.add(null);
-        alc.add(null);
-
-        try{
-            String maxQuery = Query ;
-            //execute the query results will be save in Cursor c
-            Cursor c = sqlDB.rawQuery(maxQuery, null);
-
-            //add value to cursor2
-            Cursor2.addRow(new Object[] { "Success" });
-
-            alc.set(1,Cursor2);
-            if (null != c && c.getCount() > 0) {
-
-                alc.set(0,c);
-                c.moveToFirst();
-
-                return alc ;
-            }
-            return alc;
-        } catch(SQLException sqlEx){
-            Log.d("printing exception", sqlEx.getMessage());
-            //if any exceptions are triggered save the error message to cursor an return the arraylist
-            Cursor2.addRow(new Object[] { ""+sqlEx.getMessage() });
-            alc.set(1,Cursor2);
-            return alc;
-        } catch(Exception ex){
-            Log.d("printing exception", ex.getMessage());
-
-            //if any exceptions are triggered save the error message to cursor an return the arraylist
-            Cursor2.addRow(new Object[] { ""+ex.getMessage() });
-            alc.set(1,Cursor2);
-            return alc;
-        }
-    }
-
 }

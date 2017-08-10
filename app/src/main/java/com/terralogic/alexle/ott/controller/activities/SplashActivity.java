@@ -8,10 +8,9 @@ import android.os.Bundle;
 import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.User;
+import com.terralogic.alexle.ott.utils.Utils;
 
 public class SplashActivity extends AppCompatActivity {
-    public static final String EXTRA_USER = "EXTRA_USER";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +36,7 @@ public class SplashActivity extends AppCompatActivity {
             super.onPostExecute(user);
             if (user != null) {
                 Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                intent.putExtra(EXTRA_USER, user);
+                intent.putExtra(Utils.EXTRA_USER, user);
                 startActivity(intent);
                 finish();
             } else {

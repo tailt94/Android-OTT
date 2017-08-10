@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -19,10 +18,8 @@ import com.terralogic.alexle.ott.controller.dialogs.ForgotPasswordDialogFragment
 import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.User;
 import com.terralogic.alexle.ott.service.HttpHandler;
+import com.terralogic.alexle.ott.service.Service;
 import com.terralogic.alexle.ott.utils.Utils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class LoginActivity extends PostActivity implements ForgotPasswordDialogFragment.ForgotPasswordDialogListener {
     private ViewGroup rootView;
@@ -141,14 +138,13 @@ public class LoginActivity extends PostActivity implements ForgotPasswordDialogF
     }
 
     private class ForgotPasswordTask extends AsyncTask<String, Void, String> {
-        private String requestUrl = "http://10.20.19.73/user";
         @Override
         protected String doInBackground(String... emails) {
-            HttpHandler service = new HttpHandler(requestUrl);
+            HttpHandler service = new HttpHandler(Service.URL_USER);
             service.addHeader("Content-Type", "application/x-www-form-urlencoded");
             service.addParam("method", "forgotpassword");
             service.addParam("email", emails[0]);
-            return service.makeServiceCall();
+            return service.post();
         }
 
         @Override
@@ -174,7 +170,7 @@ public class LoginActivity extends PostActivity implements ForgotPasswordDialogF
         protected void onPostExecute(User user) {
             super.onPostExecute(user);
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            intent.putExtra(SplashActivity.EXTRA_USER, user);
+            intent.putExtra(Utils.EXTRA_USER, user);
             startActivity(intent);
             finish();
         }

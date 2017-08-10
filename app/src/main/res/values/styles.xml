@@ -17,7 +17,7 @@
     
     <style name="TabLayoutStyle" parent="Base.Widget.Design.TabLayout">
         <item name="tabSelectedTextColor">@android:color/white</item>
-        <item name="tabIndicatorColor">@color/home_tab_hightlight</item>
+        <item name="tabIndicatorColor">@color/home_tab_highlight_color</item>
     </style>
 
     <style name="LoginScreenButtonStyle">
@@ -25,6 +25,13 @@
         <item name="android:layout_height">40dp</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/rounded_corner</item>
+    </style>
+
+    <style name="AddDeviceButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/btn_add_device_bg</item>
     </style>
 
     <style name="HomeTitleStyle">

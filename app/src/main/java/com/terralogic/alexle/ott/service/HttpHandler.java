@@ -49,25 +49,69 @@ public class HttpHandler {
     }
 
     /**
-     * Send request to the server
+     * GET request to the server
      * @return Response body
      */
-    public String makeServiceCall(){
+    public String get(){
         String response = null;
         HttpURLConnection conn = null;
         try {
+            String data = getDataString(params);
+            String getUrl = new String().concat(reqUrl).concat("?").concat(data);
+
+            URL url = new URL(getUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setRequestMethod("GET");
+            if (headers.size() != 0) {
+                for (Map.Entry<String, String> entry : headers.entrySet()) {
+                    conn.setRequestProperty(entry.getKey(), entry.getValue());
+                }
+            }
+
+            conn.connect();
+
+            InputStream in = null;
+            int statusCode = conn.getResponseCode();
+            if (statusCode >= 400) {
+                in = new BufferedInputStream(conn.getErrorStream());
+            } else {
+                in = new BufferedInputStream(conn.getInputStream());
+            }
+            response = convertStreamToString(in);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+        return response;
+    }
+    /**
+     * POST request to the server
+     * @return Response body
+     */
+    public String post(){
+        String response = null;
+        HttpURLConnection conn = null;
+        try {
+            String data = getDataString(params);
+
             URL url = new URL(reqUrl);
             conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setDoInput(true);
             conn.setRequestMethod("POST");
-            for (Map.Entry<String, String> entry : headers.entrySet()) {
-                conn.setRequestProperty(entry.getKey(), entry.getValue());
+            if (headers.size() != 0) {
+                for (Map.Entry<String, String> entry : headers.entrySet()) {
+                    conn.setRequestProperty(entry.getKey(), entry.getValue());
+                }
             }
 
-            //Send request
-            String data = getDataString(params);
             conn.connect();
+
             OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
             writer.write(data);
             writer.flush();
@@ -89,6 +133,7 @@ public class HttpHandler {
         }
         return response;
     }
+
 
     public static String getMessage(String response) {
         try {
@@ -115,7 +160,8 @@ public class HttpHandler {
         if (message.equals("Login successful")
                 || message.equals("Successful")
                 || message.equals("Logout successful")
-                || message.equals("Update successful !!!")) {
+                || message.equals("Update successful !!!")
+                || message.equals("Add device successfully !!!")) {
             return true;
         }
         return false;

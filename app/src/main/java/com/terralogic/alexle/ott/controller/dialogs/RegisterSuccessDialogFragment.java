@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.terralogic.alexle.ott.R;
+import com.terralogic.alexle.ott.utils.Utils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,7 +36,7 @@ public class RegisterSuccessDialogFragment extends DialogFragment {
     public static RegisterSuccessDialogFragment newInstance(String email) {
         RegisterSuccessDialogFragment instance = new RegisterSuccessDialogFragment();
         Bundle args = new Bundle();
-        args.putString(ARGS_EMAIL, email);
+        args.putString(Utils.ARG_EMAIL, email);
         instance.setArguments(args);
         return instance;
     }
@@ -55,7 +56,7 @@ public class RegisterSuccessDialogFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            email = getArguments().getString(ARGS_EMAIL);
+            email = getArguments().getString(Utils.ARG_EMAIL);
         }
     }
 

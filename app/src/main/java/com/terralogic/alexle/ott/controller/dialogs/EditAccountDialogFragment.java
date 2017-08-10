@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.model.Name;
 import com.terralogic.alexle.ott.model.User;
+import com.terralogic.alexle.ott.utils.Utils;
 
 public class EditAccountDialogFragment extends DialogFragment implements DatePickerDialogFragment.OnDateChangeListener {
     private static final String ARG_USER = "user";
@@ -40,7 +41,7 @@ public class EditAccountDialogFragment extends DialogFragment implements DatePic
     public static EditAccountDialogFragment newInstance(User user) {
         EditAccountDialogFragment dialog = new EditAccountDialogFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_USER, user);
+        args.putSerializable(Utils.ARG_USER, user);
         dialog.setArguments(args);
         return dialog;
     }
@@ -49,7 +50,7 @@ public class EditAccountDialogFragment extends DialogFragment implements DatePic
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            user = (User) getArguments().getSerializable(ARG_USER);
+            user = (User) getArguments().getSerializable(Utils.ARG_USER);
         }
     }
 
