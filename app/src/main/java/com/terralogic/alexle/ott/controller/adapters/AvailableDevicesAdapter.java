@@ -17,16 +17,16 @@ import java.util.List;
  * Created by alex.le on 08-Aug-17.
  */
 
-public class ListDeviceAdapter extends RecyclerView.Adapter<ListDeviceAdapter.AvailableDeviceViewHolder>{
+public class AvailableDevicesAdapter extends RecyclerView.Adapter<AvailableDevicesAdapter.AvailableDeviceViewHolder>{
     private List<Device> devices;
 
-    public ListDeviceAdapter(List<Device> devices) {
+    public AvailableDevicesAdapter(List<Device> devices) {
         this.devices = devices;
     }
     @Override
     public AvailableDeviceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_device, parent, false);
+        View view = inflater.inflate(R.layout.item_available_device, parent, false);
         return new AvailableDeviceViewHolder(view);
     }
 

@@ -16,6 +16,8 @@
     <color name="home_tab_text_color">#B3FFFFFF</color>
     <color name="home_title_color">#8B572A</color>
 
+    <color name="settings_fragment_connected_device_bg">#2b9297</color>
+
     <color name="add_device_switch_wifi_text_color">#5a9fd7</color>
 
     <color name="divider_color">#a2232323</color>

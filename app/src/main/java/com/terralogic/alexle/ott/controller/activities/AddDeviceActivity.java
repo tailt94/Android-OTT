@@ -13,8 +13,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
+import com.terralogic.alexle.ott.controller.fragments.AvailableDevicesFragment;
 import com.terralogic.alexle.ott.controller.fragments.ConfigDeviceFragment;
-import com.terralogic.alexle.ott.controller.fragments.ListDeviceFragment;
 import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.Device;
 import com.terralogic.alexle.ott.model.User;
@@ -26,7 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class AddDeviceActivity extends AppCompatActivity implements ConfigDeviceFragment.OnWifiInfoSubmitListener,
-        ListDeviceFragment.AddDeviceListener{
+        AvailableDevicesFragment.AddDeviceListener{
     private User user;
 
     @Override
@@ -109,7 +109,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            return "{chipID:\"423782\"}";
+            return "{chipID:\"973782\"}";
         }
 
         @Override
@@ -121,7 +121,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
                 JSONObject json = new JSONObject(response);
                 String chipID = json.getString("chipID");
 
-                ListDeviceFragment fragment = ListDeviceFragment.newInstance(chipID);
+                AvailableDevicesFragment fragment = AvailableDevicesFragment.newInstance(chipID);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.fragment_holder, fragment);
@@ -133,7 +133,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
             }
 
             /*if (HttpHandler.isSuccessful(response)) {
-                ListDeviceFragment fragment = new ListDeviceFragment();
+                AvailableDevicesFragment fragment = new AvailableDevicesFragment();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.fragment_config_device, fragment);
@@ -171,7 +171,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
             httpHandler.addParam("port", "2");
             httpHandler.addParam("tokenUser", user.getTokenUser());
             httpHandler.addParam("chipID", chipID[0]);
-            httpHandler.addParam("name", "Bulb");
+            httpHandler.addParam("name", "Lightning");
             return httpHandler.post();
         }
 

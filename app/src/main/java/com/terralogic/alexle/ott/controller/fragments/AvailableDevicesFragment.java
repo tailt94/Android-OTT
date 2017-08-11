@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.terralogic.alexle.ott.R;
-import com.terralogic.alexle.ott.controller.adapters.ListDeviceAdapter;
+import com.terralogic.alexle.ott.controller.adapters.AvailableDevicesAdapter;
 import com.terralogic.alexle.ott.model.Device;
 import com.terralogic.alexle.ott.utils.Utils;
 
@@ -22,21 +22,21 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListDeviceFragment extends Fragment {
+public class AvailableDevicesFragment extends Fragment {
     private ViewGroup btnAddDevice;
     private RecyclerView recyclerView;
-    private ListDeviceAdapter adapter;
+    private AvailableDevicesAdapter adapter;
 
     private AddDeviceListener listener;
 
     private String chipID;
 
-    public ListDeviceFragment() {
+    public AvailableDevicesFragment() {
         // Required empty public constructor
     }
 
-    public static ListDeviceFragment newInstance(String chipID) {
-        ListDeviceFragment fragment = new ListDeviceFragment();
+    public static AvailableDevicesFragment newInstance(String chipID) {
+        AvailableDevicesFragment fragment = new AvailableDevicesFragment();
         Bundle args = new Bundle();
         args.putString(Utils.ARG_CHIPID, chipID);
         fragment.setArguments(args);
@@ -73,6 +73,7 @@ public class ListDeviceFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
+        setupRecyclerView();
         setupListeners();
     }
 
@@ -83,13 +84,15 @@ public class ListDeviceFragment extends Fragment {
     }
 
     private void bindViews(View view) {
-        recyclerView = view.findViewById(R.id.list_device);
+        recyclerView = view.findViewById(R.id.list_available_devices);
         btnAddDevice = view.findViewById(R.id.btn_add);
+    }
 
+    private void setupRecyclerView() {
         Device device = new Device();
         List<Device> devices = new ArrayList<>();
         devices.add(device);
-        adapter = new ListDeviceAdapter(devices);
+        adapter = new AvailableDevicesAdapter(devices);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
