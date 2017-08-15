@@ -86,13 +86,8 @@ public class ChangePasswordDialogFragment extends DialogFragment {
         return true;
     }
 
-    public void setChangePasswordDialogListener(Fragment parentFragment) {
-        try {
-            mListener = (ChangePasswordDialogListener) parentFragment;
-        } catch (ClassCastException ex) {
-            throw new ClassCastException(parentFragment.toString()
-                    + " must implement ChangePasswordDialogListener");
-        }
+    public void setChangePasswordDialogListener(ChangePasswordDialogListener listener) {
+        mListener = listener;
     }
 
     public interface ChangePasswordDialogListener {

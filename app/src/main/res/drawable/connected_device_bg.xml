@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <solid android:color="@color/settings_fragment_connected_device_bg"/>
+            <solid android:color="@color/devices_fragment_connected_device_bg"/>
             <corners android:radius="10dp" />
         </shape>
     </item>

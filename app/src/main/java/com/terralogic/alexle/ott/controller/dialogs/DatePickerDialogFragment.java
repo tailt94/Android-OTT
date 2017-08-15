@@ -37,22 +37,8 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
         mListener.onDateChange(year, month, day);
     }
 
-    public void setDateChangeListener(Fragment parentFragment) {
-        try {
-            mListener = (OnDateChangeListener) parentFragment;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(parentFragment.toString()
-                    + " must implement OnDateChangeListener");
-        }
-    }
-
-    public void setDateChangeListener(Activity parentActivity) {
-        try {
-            mListener = (OnDateChangeListener) parentActivity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(parentActivity.toString()
-                    + " must implement OnDateChangeListener");
-        }
+    public void setDateChangeListener(OnDateChangeListener listener) {
+        mListener = listener;
     }
 
     public interface OnDateChangeListener {

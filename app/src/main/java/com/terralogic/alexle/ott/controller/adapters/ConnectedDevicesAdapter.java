@@ -22,8 +22,9 @@ import java.util.List;
  */
 
 public class ConnectedDevicesAdapter extends RecyclerView.Adapter<ConnectedDevicesAdapter.ConnectedDeviceViewHolder> {
-    Context context;
-    List<Device> devices;
+    private Context context;
+    private List<Device> devices;
+    private DeviceStatusChangeListener deviceStatusListener;
 
     public ConnectedDevicesAdapter(Context context, List<Device> devices) {
         this.context = context;
@@ -64,6 +65,14 @@ public class ConnectedDevicesAdapter extends RecyclerView.Adapter<ConnectedDevic
         notifyDataSetChanged();
     }
 
+    public void setDeviceStatusChangeListener(DeviceStatusChangeListener listener) {
+        deviceStatusListener = listener;
+    }
+
+    public interface DeviceStatusChangeListener {
+        void onStatusChange(int position, int status);
+    }
+
     private class ConnectedDeviceClickListener implements View.OnClickListener {
         private ConnectedDeviceViewHolder holder;
         private int position;
@@ -75,17 +84,18 @@ public class ConnectedDevicesAdapter extends RecyclerView.Adapter<ConnectedDevic
 
         @Override
         public void onClick(View view) {
-            Log.i("SDDDD", "DDDD");
             Device device = devices.get(position);
             int status = device.getStatus();
-            if (status == 0) {
+            if (status == 0) {//Device is OFF
                 device.setStatus(1);
                 holder.deviceImage.setImageResource(R.drawable.light_on);
                 holder.deviceStatus.setText("On");
-            } else if (status == 1) {
+                deviceStatusListener.onStatusChange(position, 1);
+            } else if (status == 1) {//Device is ON
                 device.setStatus(0);
                 holder.deviceImage.setImageResource(R.drawable.light_off);
                 holder.deviceStatus.setText("Off");
+                deviceStatusListener.onStatusChange(position, 0);
             }
         }
     }

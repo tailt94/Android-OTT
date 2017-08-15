@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by alex.le on 01-Aug-17.
  */
@@ -33,6 +37,19 @@ public final class Utils {
 
     public static boolean isValidPassword(EditText fieldPassword, EditText fieldConfirmPassword) {
         return fieldPassword.getText().toString().equals(fieldConfirmPassword.getText().toString());
+    }
+
+    public static boolean isValidJSON(String text) {
+        try {
+            new JSONObject(text);
+        } catch (JSONException ex) {
+            try {
+                new JSONArray(text);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void hideKeyboard(Context context) {

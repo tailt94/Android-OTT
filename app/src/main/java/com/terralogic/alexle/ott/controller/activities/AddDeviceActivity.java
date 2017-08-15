@@ -50,6 +50,14 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
     }
 
     @Override
+    public void finish() {
+        Intent data = new Intent();
+        data.putExtra(Utils.EXTRA_USER, user);
+        setResult(RESULT_OK, data);
+        super.finish();
+    }
+
+    @Override
     public void onWifiInfoSubmit(String wifiName, String wifiPassword) {
         Utils.hideKeyboard(this);
         new ConfigDeviceTask().execute(wifiName, wifiPassword, user.getTokenUser());
@@ -73,13 +81,6 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.fragment_holder, fragment);
         transaction.commit();
-    }
-
-    private void returnDataToDevicesFragment() {
-        Intent data = new Intent();
-        data.putExtra(Utils.EXTRA_USER, user);
-        setResult(RESULT_OK, data);
-        finish();
     }
 
     private class ConfigDeviceTask extends AsyncTask<String, Void, String> {
@@ -109,7 +110,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            return "{chipID:\"973782\"}";
+            return "{chipID:\"10725987\"}";
         }
 
         @Override
@@ -117,32 +118,24 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
             super.onPostExecute(response);
             dialog.dismiss();
 
-            try {
-                JSONObject json = new JSONObject(response);
-                String chipID = json.getString("chipID");
+            if (response != null) {
+                try {
+                    JSONObject json = new JSONObject(response);
+                    String chipID = json.getString("chipID");
 
-                AvailableDevicesFragment fragment = AvailableDevicesFragment.newInstance(chipID);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.fragment_holder, fragment);
-                transaction.addToBackStack(null);
-                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                transaction.commit();
-            } catch (JSONException ex) {
-                Toast.makeText(AddDeviceActivity.this, "Cannot detect any device", Toast.LENGTH_SHORT).show();
-            }
-
-            /*if (HttpHandler.isSuccessful(response)) {
-                AvailableDevicesFragment fragment = new AvailableDevicesFragment();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.fragment_config_device, fragment);
-                transaction.addToBackStack(null);
-                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                transaction.commit();
+                    AvailableDevicesFragment fragment = AvailableDevicesFragment.newInstance(chipID);
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.fragment_holder, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    transaction.commit();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             } else {
-                Toast.makeText(AddDeviceActivity.this, HttpHandler.getMessage(response), Toast.LENGTH_SHORT).show();
-            }*/
+                Toast.makeText(AddDeviceActivity.this, "Config device failed", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -168,10 +161,10 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
 
             httpHandler.addParam("method", "addDevice");
             httpHandler.addParam("type", "DARK");
-            httpHandler.addParam("port", "2");
+            httpHandler.addParam("port", "0");
             httpHandler.addParam("tokenUser", user.getTokenUser());
             httpHandler.addParam("chipID", chipID[0]);
-            httpHandler.addParam("name", "Lightning");
+            httpHandler.addParam("name", "Real device");
             return httpHandler.post();
         }
 
@@ -188,7 +181,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
                     user.getDevices().add(device);
                     DatabaseHandler db = DatabaseHandler.getInstance(AddDeviceActivity.this);
                     db.addDevice(device);
-                    returnDataToDevicesFragment();
+                    finish();
                 } catch (JSONException e) {
                     Log.e(this.getClass().getSimpleName(), "JSON mapping error!");
                 }

@@ -155,13 +155,8 @@ public class EditAccountDialogFragment extends DialogFragment implements DatePic
         datePicker.show(getFragmentManager(), "DatePickerDialogFragment");
     }
 
-    public void setEditDialogListener(Fragment parentFragment) {
-        try {
-            mListener = (EditDialogListener) parentFragment;
-        } catch (ClassCastException ex) {
-            throw new ClassCastException(parentFragment.toString()
-                    + " must implement EditDialogListener");
-        }
+    public void setEditDialogListener(EditDialogListener listener) {
+        mListener = listener;
     }
 
     public interface EditDialogListener {

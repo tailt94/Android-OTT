@@ -58,13 +58,8 @@ public class LogoutDialogFragment extends DialogFragment {
         });
     }
 
-    public void setLogoutDialogListener(Fragment parentFragment) {
-        try {
-            mListener = (LogoutDialogListener) parentFragment;
-        } catch (ClassCastException ex) {
-            throw new ClassCastException(parentFragment.toString()
-                    + " must implement LogoutDialogListener");
-        }
+    public void setLogoutDialogListener(LogoutDialogListener listener) {
+        mListener = listener;
     }
 
     public interface LogoutDialogListener {
