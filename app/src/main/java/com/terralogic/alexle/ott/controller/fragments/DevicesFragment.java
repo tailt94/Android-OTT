@@ -3,6 +3,7 @@ package com.terralogic.alexle.ott.controller.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +20,7 @@ import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.controller.activities.AddDeviceActivity;
 import com.terralogic.alexle.ott.controller.adapters.AvailableDevicesAdapter;
 import com.terralogic.alexle.ott.controller.adapters.ConnectedDevicesAdapter;
+import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.Device;
 import com.terralogic.alexle.ott.model.User;
 import com.terralogic.alexle.ott.service.Service;
@@ -67,7 +69,7 @@ public class DevicesFragment extends Fragment implements ConnectedDevicesAdapter
         if (getArguments() != null) {
             user = (User) getArguments().getSerializable(Utils.ARG_USER);
         }
-        wsHandler = new WebSocketHandler(Service.URL_SOCKET, new ConnectWebSocketListener());
+        wsHandler = new WebSocketHandler(Service.URL_SOCKET);
     }
 
     @Override
@@ -86,6 +88,12 @@ public class DevicesFragment extends Fragment implements ConnectedDevicesAdapter
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        new UpdateDevicesTask().execute();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_DEVICE_REQUEST) {
@@ -98,7 +106,6 @@ public class DevicesFragment extends Fragment implements ConnectedDevicesAdapter
 
     @Override
     public void onStatusChange(int position, int status) {
-        //TODO gui JSON qua websocket
         String msg = new StringBuilder()
                 .append("{")
                 .append("\"status\": ").append(status).append(",")
@@ -132,6 +139,16 @@ public class DevicesFragment extends Fragment implements ConnectedDevicesAdapter
                 startActivityForResult(intent, ADD_DEVICE_REQUEST);
             }
         });
+        wsHandler.setWebSocketListener(new ConnectWebSocketListener());
+    }
+
+    private class UpdateDevicesTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            DatabaseHandler db = DatabaseHandler.getInstance(getActivity());
+            db.updateDevices(user.getDevices());
+            return null;
+        }
     }
 
     private class ConnectWebSocketListener extends WebSocketListener {
@@ -149,6 +166,7 @@ public class DevicesFragment extends Fragment implements ConnectedDevicesAdapter
 
         @Override
         public void onMessage(WebSocket webSocket, String text) {
+            showMessage(text);
             if (Utils.isValidJSON(text)) {
                 try {
                     List<Device> devices = new ArrayList<>();
@@ -160,7 +178,7 @@ public class DevicesFragment extends Fragment implements ConnectedDevicesAdapter
                         }
                     }
                     user.setDevices(devices);
-                    adapter.setDevices(devices);
+                    refreshDevicesAdapter(devices);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -183,6 +201,15 @@ public class DevicesFragment extends Fragment implements ConnectedDevicesAdapter
                 @Override
                 public void run() {
                     Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        private void refreshDevicesAdapter(final List<Device> devices) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.setDevices(devices);
                 }
             });
         }

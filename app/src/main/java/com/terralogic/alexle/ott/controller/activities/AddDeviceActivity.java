@@ -98,19 +98,21 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
 
         @Override
         protected String doInBackground(String... params) {
-            /*HttpHandler httpHandler = new HttpHandler(Service.URL_ESP);
+            //TODO code tam. do api config device bi loi
+
+            HttpHandler httpHandler = new HttpHandler(Service.URL_ESP);
             httpHandler.addParam("wifi", params[0]);
             httpHandler.addParam("pass", params[1]);
             httpHandler.addParam("userid", params[2]);
             String response = httpHandler.get();
-            return response;*/
+            return response;
 
-            try {
+            /*try {
                 Thread.sleep(1000);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            return "{chipID:\"10725987\"}";
+            return "{chipID:\"10725987\"}";*/
         }
 
         @Override

@@ -223,4 +223,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         return db.insert(DEVICE_TABLE, null, values);
     }
+
+    public int updateDevice(Device device) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DEVICE_COLUMN_TYPE, device.getType());
+        values.put(DEVICE_COLUMN_TOPIC, device.getTopic());
+        values.put(DEVICE_COLUMN_TOKEN_USER, device.getTokenUser());
+        values.put(DEVICE_COLUMN_TOKEN, device.getToken());
+        values.put(DEVICE_COLUMN_STATUS, device.getStatus());
+        values.put(DEVICE_COLUMN_PORT, device.getPort());
+        values.put(DEVICE_COLUMN_NAME, device.getName());
+        values.put(DEVICE_COLUMN_CHIP_ID, device.getChipID());
+
+        String whereClause = DEVICE_COLUMN_TOKEN + " = ?";
+        String[] args = {device.getToken()};
+        return db.update(DEVICE_TABLE, values, whereClause, args);
+    }
+
+    public int updateDevices(List<Device> devices) {
+        int affectedRowCount = 0;
+        for (Device device : devices) {
+            affectedRowCount += updateDevice(device);
+        }
+        return affectedRowCount;
+    }
 }

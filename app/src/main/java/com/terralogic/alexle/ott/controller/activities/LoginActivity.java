@@ -92,6 +92,7 @@ public class LoginActivity extends PostActivity implements ForgotPasswordDialogF
     }
 
     private void setupListeners() {
+        //TODO code tam de login ko can email
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

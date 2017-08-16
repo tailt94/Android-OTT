@@ -11,13 +11,15 @@ import okhttp3.WebSocketListener;
  */
 
 public class WebSocketHandler {
-    private OkHttpClient client;
+    private static OkHttpClient client;
     private Request request;
     private WebSocket webSocket;
     private WebSocketListener wsListener;
 
     public WebSocketHandler(String url) {
-        client = new OkHttpClient();
+        if (client == null) {
+            client = new OkHttpClient();
+        }
         request = new Request.Builder()
                 .url(url)
                 .build();
@@ -26,19 +28,19 @@ public class WebSocketHandler {
     }
 
     public WebSocketHandler(String url, WebSocketListener listener) {
-        client = new OkHttpClient();
+        if (client == null) {
+            client = new OkHttpClient();
+        }
         request = new Request.Builder()
                 .url(url)
                 .build();
         wsListener = listener;
         webSocket = client.newWebSocket(request, wsListener);
-        //client.dispatcher().executorService().shutdown();
     }
 
     public void setWebSocketListener(WebSocketListener listener) {
         wsListener = listener;
         webSocket = client.newWebSocket(request, wsListener);
-        //client.dispatcher().executorService().shutdown();
     }
 
     public boolean send(String text) {
