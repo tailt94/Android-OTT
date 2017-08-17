@@ -98,8 +98,7 @@ public class AddDeviceActivity extends AppCompatActivity implements ConfigDevice
 
         @Override
         protected String doInBackground(String... params) {
-            //TODO code tam. do api config device bi loi
-
+            //TODO code tam cho chuc nang config device
             HttpHandler httpHandler = new HttpHandler(Service.URL_ESP);
             httpHandler.addParam("wifi", params[0]);
             httpHandler.addParam("pass", params[1]);

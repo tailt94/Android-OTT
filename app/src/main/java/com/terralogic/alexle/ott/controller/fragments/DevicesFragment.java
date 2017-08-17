@@ -166,6 +166,7 @@ public class DevicesFragment extends Fragment implements ConnectedDevicesAdapter
 
         @Override
         public void onMessage(WebSocket webSocket, String text) {
+            //TODO code tam. de hien thi message gui toi tu socket
             showMessage(text);
             if (Utils.isValidJSON(text)) {
                 try {

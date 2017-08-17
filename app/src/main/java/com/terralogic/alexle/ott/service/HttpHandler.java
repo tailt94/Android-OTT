@@ -17,6 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -25,8 +26,8 @@ import java.util.Map;
 
 public class HttpHandler {
     private String reqUrl;
-    private HashMap<String, String> params = new HashMap<>();
-    private HashMap<String, String> headers = new HashMap<>();
+    private HashMap<String, String> params = new LinkedHashMap<>();
+    private HashMap<String, String> headers = new LinkedHashMap<>();
 
     public HttpHandler(String url) {
         reqUrl = url;
