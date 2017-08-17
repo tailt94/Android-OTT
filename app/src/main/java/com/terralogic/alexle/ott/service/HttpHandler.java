@@ -62,9 +62,9 @@ public class HttpHandler {
 
             URL url = new URL(getUrl);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setDoOutput(true);
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
+            conn.setConnectTimeout(120000);
             if (headers.size() != 0) {
                 for (Map.Entry<String, String> entry : headers.entrySet()) {
                     conn.setRequestProperty(entry.getKey(), entry.getValue());

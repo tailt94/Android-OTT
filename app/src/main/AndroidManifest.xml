@@ -28,15 +28,18 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".controller.activities.RegisterActivity"
+            android:screenOrientation="portrait"
             android:label="@string/register_activity_tittle"
             android:theme="@style/AppThemeWithActionBar" />
         <activity
             android:name=".controller.activities.HomeActivity"
+            android:screenOrientation="portrait"
             android:label="@string/home_activity_title"
             android:theme="@style/AppThemeWithActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".controller.activities.AddDeviceActivity"
+            android:screenOrientation="portrait"
             android:label="@string/config_device_fragment_title"
             android:theme="@style/AppThemeWithActionBar"/>
     </application>

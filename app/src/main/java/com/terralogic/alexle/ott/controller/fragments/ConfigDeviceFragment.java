@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
-import com.terralogic.alexle.ott.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

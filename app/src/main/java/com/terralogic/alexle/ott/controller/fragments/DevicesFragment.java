@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.terralogic.alexle.ott.R;
 import com.terralogic.alexle.ott.controller.activities.AddDeviceActivity;
-import com.terralogic.alexle.ott.controller.adapters.AvailableDevicesAdapter;
 import com.terralogic.alexle.ott.controller.adapters.ConnectedDevicesAdapter;
 import com.terralogic.alexle.ott.model.DatabaseHandler;
 import com.terralogic.alexle.ott.model.Device;
@@ -37,7 +36,6 @@ import java.util.List;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
-import okio.ByteString;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -84,12 +82,18 @@ public class DevicesFragment extends Fragment implements ConnectedDevicesAdapter
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
         setupRecyclerView();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         setupListeners();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        wsHandler.close();
         new UpdateDevicesTask().execute();
     }
 
@@ -198,21 +202,25 @@ public class DevicesFragment extends Fragment implements ConnectedDevicesAdapter
         }
 
         private void showMessage(final String msg) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-                }
-            });
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         }
 
         private void refreshDevicesAdapter(final List<Device> devices) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.setDevices(devices);
-                }
-            });
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.setDevices(devices);
+                    }
+                });
+            }
         }
     }
 }

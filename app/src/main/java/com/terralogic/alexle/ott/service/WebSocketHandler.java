@@ -2,7 +2,6 @@ package com.terralogic.alexle.ott.service;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
@@ -11,6 +10,8 @@ import okhttp3.WebSocketListener;
  */
 
 public class WebSocketHandler {
+    private static final int NORMAL_CLOSURE_STATUS = 1000;
+
     private static OkHttpClient client;
     private Request request;
     private WebSocket webSocket;
@@ -45,5 +46,9 @@ public class WebSocketHandler {
 
     public boolean send(String text) {
         return webSocket.send(text);
+    }
+
+    public void close() {
+        webSocket.close(NORMAL_CLOSURE_STATUS, null);
     }
 }
