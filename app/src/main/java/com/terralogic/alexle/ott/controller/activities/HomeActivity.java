@@ -75,6 +75,7 @@ public class HomeActivity extends AppCompatActivity {
         adapter.addFragment(new CallLogsFragment(), "CALLLOGS");
         adapter.addFragment(SettingsFragment.newInstance(user), "SETTINGS");
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(2);
     }
 
     private class ViewPagerAdapter extends FragmentPagerAdapter {
