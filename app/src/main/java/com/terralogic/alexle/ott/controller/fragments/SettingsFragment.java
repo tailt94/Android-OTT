@@ -172,6 +172,8 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
     private class LogoutTask extends AsyncTask<User, Void, String> {
         @Override
         protected String doInBackground(User... users) {
+            DatabaseHandler db = DatabaseHandler.getInstance(getActivity());
+            db.clearDatabase();
             HttpHandler httpHandler = new HttpHandler(Service.URL_API);
             httpHandler.addHeader("Content-Type", "application/x-www-form-urlencoded");
             httpHandler.addHeader("Authorization", "Bearer " + users[0].getToken());
@@ -183,8 +185,6 @@ public class SettingsFragment extends Fragment implements EditAccountDialogFragm
         @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
-            DatabaseHandler db = DatabaseHandler.getInstance(getActivity());
-            db.clearDatabase();
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
             getActivity().finish();

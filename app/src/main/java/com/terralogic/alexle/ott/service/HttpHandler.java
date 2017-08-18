@@ -137,13 +137,15 @@ public class HttpHandler {
 
 
     public static String getMessage(String response) {
-        try {
-            JSONObject json = new JSONObject(response);
-            return json.getString("message");
-        } catch (JSONException ex) {
-            Log.e("HttpHandler", "JSON mapping error!");
+        if (response != null) {
+            try {
+                JSONObject json = new JSONObject(response);
+                return json.getString("message");
+            } catch (JSONException ex) {
+                Log.e("HttpHandler", "JSON mapping error!");
+            }
         }
-        return null;
+        return "Connect failed!";
     }
 
     /**
@@ -155,9 +157,6 @@ public class HttpHandler {
             return false;
         }
         String message = getMessage(response);
-        if (message == null) {
-            return false;
-        }
         if (message.equals("Login successful")
                 || message.equals("Successful")
                 || message.equals("Logout successful")
